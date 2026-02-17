@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -13,29 +13,23 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { LogOut, Save } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useAppContext } from '@/hooks/use-app-context';
+import { Save } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+
 
 const SettingsPage = () => {
     const { toast } = useToast();
-    const router = useRouter();
-    const { setIsLoading } = useAppContext();
     const [clinicName, setClinicName] = useState('Ultrasound Project');
     const [doctorName, setDoctorName] = useState('Dr. Anjali Sharma');
+    const [phone, setPhone] = useState('9876543210');
+    const [address, setAddress] = useState('Shivalik College of Engineering, Dehradun');
     const [language, setLanguage] = useState('en');
     
     const handleSave = () => {
         toast({
             title: "Settings Saved",
-            description: "Your clinic information has been updated.",
+            description: "Your information has been updated.",
         });
-    };
-
-    const handleLogout = () => {
-        setIsLoading(true);
-        sessionStorage.removeItem('isAuthenticated');
-        router.push('/login');
     };
 
     return (
@@ -43,43 +37,59 @@ const SettingsPage = () => {
             <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
             <Card className="max-w-2xl">
                 <CardHeader>
-                    <CardTitle>Clinic Settings</CardTitle>
+                    <CardTitle>Profile & Settings</CardTitle>
+                    <CardDescription>Manage your personal and clinic information.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                    <div className="space-y-2">
-                        <Label htmlFor="clinicName">Clinic Name</Label>
-                        <Input id="clinicName" value={clinicName} onChange={(e) => setClinicName(e.target.value)} />
+                    <div className="space-y-4">
+                        <h3 className="text-lg font-medium">User Profile</h3>
+                        <div className="space-y-2">
+                            <Label htmlFor="doctorName">Doctor Name</Label>
+                            <Input id="doctorName" value={doctorName} onChange={(e) => setDoctorName(e.target.value)} />
+                        </div>
+                         <div className="space-y-2">
+                            <Label htmlFor="phone">Contact Phone</Label>
+                            <Input id="phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                        </div>
                     </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="doctorName">Doctor Name</Label>
-                        <Input id="doctorName" value={doctorName} onChange={(e) => setDoctorName(e.target.value)} />
+
+                    <div className="space-y-4">
+                         <h3 className="text-lg font-medium">Clinic Information</h3>
+                        <div className="space-y-2">
+                            <Label htmlFor="clinicName">Clinic Name</Label>
+                            <Input id="clinicName" value={clinicName} onChange={(e) => setClinicName(e.target.value)} />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="address">Clinic Address</Label>
+                            <Textarea id="address" value={address} onChange={(e) => setAddress(e.target.value)} />
+                        </div>
                     </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="language">Language</Label>
-                        <Select value={language} onValueChange={setLanguage}>
-                            <SelectTrigger id="language" className="w-[180px]">
-                                <SelectValue placeholder="Select language" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="en">English</SelectItem>
-                                <SelectItem value="hi">Hindi</SelectItem>
-                                <SelectItem value="bn">Bengali</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    <div className="space-y-2">
-                        <Label>Device Status</Label>
-                        <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
-                            <span className="text-sm text-muted-foreground">Connected (Model: PU-101)</span>
+                    
+                    <div className="space-y-4">
+                        <h3 className="text-lg font-medium">Application Settings</h3>
+                        <div className="space-y-2">
+                            <Label htmlFor="language">Language</Label>
+                            <Select value={language} onValueChange={setLanguage}>
+                                <SelectTrigger id="language" className="w-[180px]">
+                                    <SelectValue placeholder="Select language" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="en">English</SelectItem>
+                                    <SelectItem value="hi">Hindi</SelectItem>
+                                    <SelectItem value="bn">Bengali</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <div className="space-y-2">
+                            <Label>Device Status</Label>
+                            <div className="flex items-center gap-2">
+                                <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
+                                <span className="text-sm text-muted-foreground">Connected (Model: PU-101)</span>
+                            </div>
                         </div>
                     </div>
                 </CardContent>
                 <CardFooter className="flex justify-end gap-2">
-                    <Button variant="outline" onClick={handleLogout}>
-                        <LogOut className="mr-2 h-4 w-4" />
-                        Logout
-                    </Button>
                     <Button onClick={handleSave}>
                         <Save className="mr-2 h-4 w-4" />
                         Save Changes
