@@ -32,7 +32,7 @@ export const videosData: Video[] = [
   { id: 'v007', title: 'How to Apply a Bandage Correctly', description: 'First Aid Basics', thumbnailUrl: 'educational-video', type: 'Educational', duration: '03:10', youtubeUrl: 'https://youtu.be/Ek0GU51kUuY?si=El2V1efNIP4fWDKK' },
   { id: 'v008', title: 'Using Antiseptics for Wound Care', description: 'First Aid Basics', thumbnailUrl: 'educational-video', type: 'Educational', duration: '04:55', youtubeUrl: 'https://youtu.be/3kAWRs_hMxg?si=TaXHc1UC1gpYrVKC' },
   { id: 'v009', title: 'Applying a Hot Compress (Garam Patti)', description: 'Home Remedies', thumbnailUrl: 'educational-video', type: 'Educational', duration: '02:30', youtubeUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-  { id: 'v010', title: 'The Right Way to Tie a Crepe Bandage', description: 'First Aid Basics', thumbnailUrl: 'educational-video', type: 'Educational', duration: '05:17', youtubeUrl: 'https://youtu.be/CQBN45mPPHs?si=4x3oCR5mWGzr5QPP' }
+  { id: 'v010', title: 'The Right Way to Tie a Crepe Bandage', description: 'First Aid Basics', thumbnailUrl: 'crepe-bandage', type: 'Educational', duration: '05:17', youtubeUrl: 'https://youtu.be/CQBN45mPPHs?si=4x3oCR5mWGzr5QPP' }
 ];
 
 export const bodyParts: BodyPart[] = [
