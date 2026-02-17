@@ -11,7 +11,7 @@ export const patientsData: Patient[] = [
 
 export const scansData: Scan[] = [
   { id: 's001', patientId: 'p001', patientName: 'Aman Bhardwaj', bodyPart: 'Cardiac', date: '2023-10-15', creditsUsed: 8, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s001/300/200' },
-  { id: 's002', patientId: 'p002', patientName: 'Ankit Raj', bodyPart: 'Pregnancy', date: '2023-09-22', creditsUsed: 6, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s002/300/200' },
+  { id: 's002', patientId: 'p002', patientName: 'Ankit Raj', bodyPart: 'Kidney', date: '2023-09-22', creditsUsed: 5, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s002/300/200' },
   { id: 's003', patientId: 'p003', patientName: 'Shivam Kumar', bodyPart: 'Abdomen', date: '2023-11-01', creditsUsed: 4, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s003/300/200' },
   { id: 's004', patientId: 'p001', patientName: 'Aman Bhardwaj', bodyPart: 'Kidney', date: '2023-07-05', creditsUsed: 5, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s004/300/200' },
   { id: 's005', patientId: 'p004', patientName: 'Shivam Raj', bodyPart: 'Right Hand', date: '2023-08-10', creditsUsed: 3, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s005/300/200' },
