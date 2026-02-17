@@ -1,5 +1,17 @@
 import type { Patient, Scan, Alert, Video, BodyPart } from '@/lib/types';
 import { Abdomen, Hand, Heart, Kidneys, PregnantWoman } from '@/components/icons/BodyParts';
+import type { ScanPathologyAnalysisOutput } from '@/ai/flows/scan-pathology-analysis';
+
+const sampleReport: ScanPathologyAnalysisOutput = {
+    pathologyAnalysis: "The scan shows evidence of moderate fatty infiltration in the liver (hepatic steatosis). The gallbladder wall appears slightly thickened, which may suggest chronic cholecystitis. No focal lesions or biliary duct dilation observed.",
+    confidenceLevel: 'Medium',
+    recommendations: [
+        "Recommend liver function tests (LFTs) to assess liver health.",
+        "Advise patient on lifestyle and dietary modifications to manage fatty liver.",
+        "A follow-up ultrasound in 3-6 months is suggested to monitor the condition.",
+        "Consultation with a gastroenterologist is recommended for further evaluation."
+    ]
+};
 
 export const patientsData: Patient[] = [
   { id: 'p001', name: 'Aman Bhardwaj', age: 21, gender: 'Male', phone: '9876543210', address: 'Shivalik College of Engineering, Dehradun', totalScans: 2, lastScan: '2023-10-15' },
@@ -10,11 +22,11 @@ export const patientsData: Patient[] = [
 ];
 
 export const scansData: Scan[] = [
-  { id: 's001', patientId: 'p001', patientName: 'Aman Bhardwaj', bodyPart: 'Cardiac', date: '2023-10-15', creditsUsed: 8, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s001/300/200' },
-  { id: 's002', patientId: 'p002', patientName: 'Ankit Raj', bodyPart: 'Kidney', date: '2023-09-22', creditsUsed: 5, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s002/300/200' },
-  { id: 's003', patientId: 'p003', patientName: 'Shivam Kumar', bodyPart: 'Abdomen', date: '2023-11-01', creditsUsed: 4, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s003/300/200' },
-  { id: 's004', patientId: 'p001', patientName: 'Aman Bhardwaj', bodyPart: 'Kidney', date: '2023-07-05', creditsUsed: 5, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s004/300/200' },
-  { id: 's005', patientId: 'p004', patientName: 'Shivam Raj', bodyPart: 'Right Hand', date: '2023-08-10', creditsUsed: 3, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s005/300/200' },
+  { id: 's001', patientId: 'p001', patientName: 'Aman Bhardwaj', bodyPart: 'Cardiac', date: '2023-10-15', creditsUsed: 8, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s001/800/600', report: sampleReport },
+  { id: 's002', patientId: 'p002', patientName: 'Ankit Raj', bodyPart: 'Kidney', date: '2023-09-22', creditsUsed: 5, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s002/800/600', report: {...sampleReport, pathologyAnalysis: "Both kidneys appear normal in size and echotexture. No evidence of hydronephrosis, cysts, or calculi. Corticomedullary differentiation is well-preserved."} },
+  { id: 's003', patientId: 'p003', patientName: 'Shivam Kumar', bodyPart: 'Abdomen', date: '2023-11-01', creditsUsed: 4, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s003/800/600', report: sampleReport },
+  { id: 's004', patientId: 'p001', patientName: 'Aman Bhardwaj', bodyPart: 'Kidney', date: '2023-07-05', creditsUsed: 5, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s004/800/600', report: {...sampleReport, pathologyAnalysis: "A simple 2cm cyst is noted in the upper pole of the left kidney. This is likely a benign finding. The right kidney is unremarkable."} },
+  { id: 's005', patientId: 'p004', patientName: 'Shivam Raj', bodyPart: 'Right Hand', date: '2023-08-10', creditsUsed: 3, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s005/800/600', report: {...sampleReport, pathologyAnalysis: "No significant soft tissue or structural abnormalities detected in the scanned area of the right hand. No signs of inflammation or fluid collection."} },
 ];
 
 export const alertsData: Alert[] = [

@@ -16,8 +16,6 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog';
 import { Eye, User, Cake, Phone, MapPin, Venus, Mars, Users, Scan as ScanIcon, Printer, Download } from 'lucide-react';
@@ -25,6 +23,7 @@ import { useAppContext } from '@/hooks/use-app-context';
 import type { Patient, Scan } from '@/lib/types';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
+import Logo from '@/components/icons/Logo';
 
 const PatientsPage = () => {
   const { patients, scans } = useAppContext();
@@ -209,49 +208,97 @@ const PatientsPage = () => {
       </div>
       
       <Dialog open={!!selectedScan} onOpenChange={(isOpen) => !isOpen && setSelectedScan(null)}>
-        <DialogContent className="sm:max-w-3xl printable-area">
-          <div ref={reportRef} className="printable-content">
-            <DialogHeader>
-              <DialogTitle>Scan Report</DialogTitle>
-              <CardDescription>Scan ID: {selectedScan?.id}</CardDescription>
-            </DialogHeader>
-            <div className="my-4">
-              <div className="grid grid-cols-3 gap-4 mb-6 text-sm">
-                <div>
-                  <p className="font-semibold">Patient Name</p>
-                  <p className="text-muted-foreground">{selectedPatient?.name}</p>
-                </div>
-                <div>
-                  <p className="font-semibold">Age</p>
-                  <p className="text-muted-foreground">{selectedPatient?.age}</p>
-                </div>
-                <div>
-                  <p className="font-semibold">Gender</p>
-                  <p className="text-muted-foreground">{selectedPatient?.gender}</p>
-                </div>
+        <DialogContent className="sm:max-w-4xl p-0 printable-area">
+          <div ref={reportRef} className="printable-content bg-white p-8 text-black">
+            <header className="flex justify-between items-start mb-8">
+              <div className="flex items-center gap-4">
+                  <Logo className="h-16 w-16" />
+                  <div>
+                      <h1 className="text-3xl font-bold text-primary">SCAN REPORT</h1>
+                      <p className="text-sm text-gray-600">{selectedScan?.bodyPart} Scan</p>
+                  </div>
               </div>
+              <div className="text-right text-sm text-gray-700">
+                  <p className="font-bold">Ultrasound Project</p>
+                  <p>Dr. Anjali Sharma</p>
+                  <p>Shivalik College of Engineering, Dehradun</p>
+              </div>
+            </header>
 
-              {selectedScan?.imageUrl && (
-                <div className="rounded-lg overflow-hidden border">
-                  <Image
-                    src={selectedScan.imageUrl}
-                    alt={`Scan for ${selectedScan.bodyPart}`}
-                    width={800}
-                    height={600}
-                    className="object-cover w-full"
-                  />
+            <section className="grid grid-cols-2 gap-x-8 gap-y-4 border-y py-4 mb-8">
+                <div>
+                    <p className="text-xs uppercase tracking-wider text-gray-500">Patient Name</p>
+                    <p className="font-semibold">{selectedPatient?.name}</p>
                 </div>
+                <div>
+                    <p className="text-xs uppercase tracking-wider text-gray-500">Scan Date</p>
+                    <p className="font-semibold">{selectedScan?.date}</p>
+                </div>
+                <div>
+                    <p className="text-xs uppercase tracking-wider text-gray-500">Age / Gender</p>
+                    <p className="font-semibold">{selectedPatient?.age} Years / {selectedPatient?.gender}</p>
+                </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-wider text-gray-500">Scan ID</p>
+                    <p className="font-semibold">{selectedScan?.id}</p>
+                </div>
+            </section>
+
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+              <div className="space-y-6">
+                {selectedScan?.report ? (
+                    <>
+                        <div className="bg-primary/5 p-4 rounded-lg">
+                            <h3 className="font-bold text-primary mb-2">SCAN FINDINGS</h3>
+                            <p className="text-sm text-gray-700">{selectedScan.report.pathologyAnalysis}</p>
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-primary mb-2">AI-Powered Analysis</h3>
+                            <div className="grid grid-cols-2 gap-4">
+                              <div className="bg-gray-100 p-3 rounded-lg">
+                                <p className="text-xs text-gray-500">CONFIDENCE</p>
+                                <p className="font-semibold text-gray-800">{selectedScan.report.confidenceLevel}</p>
+                              </div>
+                            </div>
+                        </div>
+                    </>
+                ) : (
+                    <div className="p-4 text-center text-gray-500 bg-gray-50 rounded-lg h-full flex items-center justify-center">
+                        <p>No AI analysis available for this scan.</p>
+                    </div>
+                )}
+              </div>
+              {selectedScan?.imageUrl && (
+                  <div className="rounded-lg overflow-hidden border-2 border-gray-200">
+                  <Image
+                      src={selectedScan.imageUrl}
+                      alt={`Scan for ${selectedScan.bodyPart}`}
+                      width={800}
+                      height={600}
+                      className="object-cover w-full"
+                  />
+                  </div>
               )}
-            </div>
+            </section>
+            
+            {selectedScan?.report && (
+              <section>
+                <h3 className="font-bold text-primary border-b-2 border-primary/30 pb-1 mb-3">RECOMMENDATIONS</h3>
+                <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
+                    {selectedScan.report.recommendations.map((rec, i) => <li key={i}>{rec}</li>)}
+                </ul>
+              </section>
+            )}
+
           </div>
-          <DialogFooter className="print:hidden">
+          <DialogFooter className="print:hidden bg-gray-50 p-3 border-t">
             <Button variant="outline" onClick={handlePrint}>
               <Printer className="mr-2 h-4 w-4" />
-              Print
+              Print Report
             </Button>
             <Button onClick={handleDownload}>
               <Download className="mr-2 h-4 w-4" />
-              Download
+              Download Image
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -268,13 +315,15 @@ const PatientsPage = () => {
             top: 0;
             width: 100%;
             height: auto;
-            padding: 2rem;
             background: white;
             border: none;
             box-shadow: none;
+            padding: 2rem;
+            margin: 0;
           }
-          .printable-content {
+           .printable-content {
             display: block;
+            color: black;
           }
         }
       `}</style>

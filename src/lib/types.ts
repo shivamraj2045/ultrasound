@@ -1,3 +1,5 @@
+import type { ScanPathologyAnalysisOutput } from '@/ai/flows/scan-pathology-analysis';
+
 export type Patient = {
   id: string;
   name: string;
@@ -18,7 +20,7 @@ export type Scan = {
   creditsUsed: number;
   status: 'Completed' | 'Pending' | 'Failed';
   imageUrl: string;
-  report?: any;
+  report?: ScanPathologyAnalysisOutput;
 };
 
 export type Alert = {
