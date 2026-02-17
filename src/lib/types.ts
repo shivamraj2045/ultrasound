@@ -35,7 +35,9 @@ export type Video = {
   title: string;
   description: string;
   thumbnailUrl: string;
-  type: 'Training' | 'Recorded';
+  type: 'Training' | 'Recorded' | 'Educational';
+  duration: string;
+  youtubeUrl: string;
 };
 
 export type BodyPart = {
