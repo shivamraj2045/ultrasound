@@ -24,6 +24,7 @@ import type { Patient, Scan } from '@/lib/types';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import Logo from '@/components/icons/Logo';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const PatientsPage = () => {
   const { patients, scans } = useAppContext();
@@ -208,94 +209,96 @@ const PatientsPage = () => {
       </div>
       
       <Dialog open={!!selectedScan} onOpenChange={(isOpen) => !isOpen && setSelectedScan(null)}>
-        <DialogContent className="sm:max-w-4xl p-0 printable-area">
-          <div ref={reportRef} className="printable-content bg-white p-8 text-black">
-            <header className="flex justify-between items-start mb-8">
-              <div className="flex items-center gap-4">
-                  <Logo className="h-16 w-16" />
-                  <div>
-                      <h1 className="text-3xl font-bold text-primary">SCAN REPORT</h1>
-                      <p className="text-sm text-muted-foreground">{selectedScan?.bodyPart} Scan</p>
+        <DialogContent className="sm:max-w-4xl p-0 printable-area max-h-[90vh] flex flex-col">
+          <ScrollArea className="flex-1">
+            <div ref={reportRef} className="printable-content bg-white p-8 text-black">
+              <header className="flex justify-between items-start mb-8">
+                <div className="flex items-center gap-4">
+                    <Logo className="h-16 w-16" />
+                    <div>
+                        <h1 className="text-3xl font-bold text-primary">SCAN REPORT</h1>
+                        <p className="text-sm text-muted-foreground">{selectedScan?.bodyPart} Scan</p>
+                    </div>
+                </div>
+                <div className="text-right text-sm">
+                    <p className="font-bold">Ultrasound Project</p>
+                    <p className="text-muted-foreground">Dr. Anjali Sharma</p>
+                    <p className="text-muted-foreground">Shivalik College of Engineering, Dehradun</p>
+                </div>
+              </header>
+
+              <section className="bg-muted/30 rounded-lg p-4 mb-8 border border-muted/50">
+                  <h2 className="text-lg font-semibold mb-4 text-primary">Patient Details</h2>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-4">
+                      <div>
+                          <p className="text-xs uppercase tracking-wider text-muted-foreground">Patient Name</p>
+                          <p className="font-semibold">{selectedPatient?.name}</p>
+                      </div>
+                      <div>
+                          <p className="text-xs uppercase tracking-wider text-muted-foreground">Age / Gender</p>
+                          <p className="font-semibold">{selectedPatient?.age} Years / {selectedPatient?.gender}</p>
+                      </div>
+                      <div>
+                          <p className="text-xs uppercase tracking-wider text-muted-foreground">Scan Date</p>
+                          <p className="font-semibold">{selectedScan?.date}</p>
+                      </div>
+                      <div>
+                          <p className="text-xs uppercase tracking-wider text-muted-foreground">Scan ID</p>
+                          <p className="font-semibold">{selectedScan?.id}</p>
+                      </div>
                   </div>
-              </div>
-              <div className="text-right text-sm">
-                  <p className="font-bold">Ultrasound Project</p>
-                  <p className="text-muted-foreground">Dr. Anjali Sharma</p>
-                  <p className="text-muted-foreground">Shivalik College of Engineering, Dehradun</p>
-              </div>
-            </header>
+              </section>
 
-            <section className="bg-muted/30 rounded-lg p-4 mb-8 border border-muted/50">
-                <h2 className="text-lg font-semibold mb-4 text-primary">Patient Details</h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-4">
-                    <div>
-                        <p className="text-xs uppercase tracking-wider text-muted-foreground">Patient Name</p>
-                        <p className="font-semibold">{selectedPatient?.name}</p>
-                    </div>
-                    <div>
-                        <p className="text-xs uppercase tracking-wider text-muted-foreground">Age / Gender</p>
-                        <p className="font-semibold">{selectedPatient?.age} Years / {selectedPatient?.gender}</p>
-                    </div>
-                    <div>
-                        <p className="text-xs uppercase tracking-wider text-muted-foreground">Scan Date</p>
-                        <p className="font-semibold">{selectedScan?.date}</p>
-                    </div>
-                    <div>
-                        <p className="text-xs uppercase tracking-wider text-muted-foreground">Scan ID</p>
-                        <p className="font-semibold">{selectedScan?.id}</p>
-                    </div>
-                </div>
-            </section>
-
-            <section className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
-                <div className="md:col-span-2 rounded-lg overflow-hidden border">
-                    {selectedScan?.imageUrl && (
-                        <Image
-                            src={selectedScan.imageUrl}
-                            alt={`Scan for ${selectedScan.bodyPart}`}
-                            width={800}
-                            height={800}
-                            className="object-cover w-full h-full"
-                        />
-                    )}
-                </div>
-                <div className="md:col-span-3 space-y-6">
-                {selectedScan?.report ? (
-                    <>
-                        <div>
-                            <h3 className="font-bold text-primary mb-2 text-lg">AI-Powered Analysis</h3>
-                            <div className="bg-primary/5 p-4 rounded-lg space-y-4 border border-primary/20">
-                                <div>
-                                    <h4 className="font-semibold text-primary/80 mb-1">Scan Findings</h4>
-                                    <p className="text-sm text-foreground/80">{selectedScan.report.pathologyAnalysis}</p>
-                                </div>
-                                <div>
-                                    <h4 className="font-semibold text-primary/80 mb-1">Confidence Level</h4>
-                                    <Badge variant={
-                                        selectedScan.report.confidenceLevel === 'High' ? 'default'
-                                        : selectedScan.report.confidenceLevel === 'Medium' ? 'secondary'
-                                        : 'destructive'
-                                    }>
-                                        {selectedScan.report.confidenceLevel}
-                                    </Badge>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <h3 className="font-bold text-primary mb-2 text-lg">Recommendations</h3>
-                            <ul className="list-disc list-inside text-sm text-foreground/80 space-y-2 pl-2">
-                                {selectedScan.report.recommendations.map((rec, i) => <li key={i}>{rec}</li>)}
-                            </ul>
-                        </div>
-                    </>
-                ) : (
-                    <div className="p-4 text-center text-muted-foreground bg-muted/20 rounded-lg h-full flex items-center justify-center border border-dashed">
-                        <p>No AI analysis available for this scan.</p>
-                    </div>
-                )}
-                </div>
-            </section>
-          </div>
+              <section className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
+                  <div className="md:col-span-2 rounded-lg overflow-hidden border">
+                      {selectedScan?.imageUrl && (
+                          <Image
+                              src={selectedScan.imageUrl}
+                              alt={`Scan for ${selectedScan.bodyPart}`}
+                              width={800}
+                              height={800}
+                              className="object-cover w-full h-full"
+                          />
+                      )}
+                  </div>
+                  <div className="md:col-span-3 space-y-6">
+                  {selectedScan?.report ? (
+                      <>
+                          <div>
+                              <h3 className="font-bold text-primary mb-2 text-lg">AI-Powered Analysis</h3>
+                              <div className="bg-primary/5 p-4 rounded-lg space-y-4 border border-primary/20">
+                                  <div>
+                                      <h4 className="font-semibold text-primary/80 mb-1">Scan Findings</h4>
+                                      <p className="text-sm text-foreground/80">{selectedScan.report.pathologyAnalysis}</p>
+                                  </div>
+                                  <div>
+                                      <h4 className="font-semibold text-primary/80 mb-1">Confidence Level</h4>
+                                      <Badge variant={
+                                          selectedScan.report.confidenceLevel === 'High' ? 'default'
+                                          : selectedScan.report.confidenceLevel === 'Medium' ? 'secondary'
+                                          : 'destructive'
+                                      }>
+                                          {selectedScan.report.confidenceLevel}
+                                      </Badge>
+                                  </div>
+                              </div>
+                          </div>
+                          <div>
+                              <h3 className="font-bold text-primary mb-2 text-lg">Recommendations</h3>
+                              <ul className="list-disc list-inside text-sm text-foreground/80 space-y-2 pl-2">
+                                  {selectedScan.report.recommendations.map((rec, i) => <li key={i}>{rec}</li>)}
+                              </ul>
+                          </div>
+                      </>
+                  ) : (
+                      <div className="p-4 text-center text-muted-foreground bg-muted/20 rounded-lg h-full flex items-center justify-center border border-dashed">
+                          <p>No AI analysis available for this scan.</p>
+                      </div>
+                  )}
+                  </div>
+              </section>
+            </div>
+          </ScrollArea>
           <DialogFooter className="print:hidden bg-muted/20 p-3 border-t">
             <Button variant="outline" onClick={handlePrint}>
               <Printer className="mr-2 h-4 w-4" />
