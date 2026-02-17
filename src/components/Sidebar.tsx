@@ -30,7 +30,7 @@ const navItems = [
   { href: '/settings', icon: Settings, label: 'Settings' },
 ];
 
-const NavLink = ({ href, icon: Icon, label }: { href: string; icon: React.ElementType; label: string }) => {
+const NavLink = ({ href, icon: Icon, label, isSheet }: { href: string; icon: React.ElementType; label: string; isSheet?: boolean }) => {
   const pathname = usePathname();
   const { setIsLoading } = useAppContext();
   const isActive = pathname === href;
@@ -41,20 +41,23 @@ const NavLink = ({ href, icon: Icon, label }: { href: string; icon: React.Elemen
     }
   };
 
-  return (
-    <SheetClose asChild>
-      <Link href={href} onClick={handleClick} className={cn(
-        "flex items-center gap-3 rounded-lg px-3 py-2 text-gray-700 transition-all hover:bg-accent hover:text-primary-foreground",
-        isActive && "bg-primary text-primary-foreground shadow-md"
-      )}>
-        <Icon className="h-5 w-5" />
-        <span className="font-medium">{label}</span>
-      </Link>
-    </SheetClose>
+  const link = (
+    <Link href={href} onClick={handleClick} className={cn(
+      "flex items-center gap-3 rounded-lg px-3 py-2 text-gray-700 transition-all hover:bg-accent hover:text-primary-foreground",
+      isActive && "bg-primary text-primary-foreground shadow-md"
+    )}>
+      <Icon className="h-5 w-5" />
+      <span className="font-medium">{label}</span>
+    </Link>
   );
+
+  if (isSheet) {
+    return <SheetClose asChild>{link}</SheetClose>;
+  }
+  return link;
 };
 
-const Sidebar = ({ className }: { className?: string }) => {
+const Sidebar = ({ className, isSheet }: { className?: string; isSheet?: boolean }) => {
   const pathname = usePathname();
   const { setIsLoading } = useAppContext();
   const router = useRouter();
@@ -71,26 +74,30 @@ const Sidebar = ({ className }: { className?: string }) => {
     router.push('/login');
   };
 
+  const headerLink = (
+    <Link href="/dashboard" onClick={handleHeaderClick} className="flex items-center gap-3 px-3 py-2 mb-6">
+      <Logo />
+      <span className="text-xl font-bold text-primary">Ultrasound Project</span>
+    </Link>
+  );
+
+  const logoutButton = (
+    <button onClick={handleLogout} className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-gray-700 transition-all hover:bg-accent hover:text-primary-foreground">
+      <LogOut className="h-5 w-5" />
+      <span className="font-medium">Logout</span>
+    </button>
+  );
+
   return (
     <aside className={cn("flex flex-col border-r bg-card p-4", className)}>
-      <SheetClose asChild>
-        <Link href="/dashboard" onClick={handleHeaderClick} className="flex items-center gap-3 px-3 py-2 mb-6">
-          <Logo />
-          <span className="text-xl font-bold text-primary">Ultrasound Project</span>
-        </Link>
-      </SheetClose>
+      {isSheet ? <SheetClose asChild>{headerLink}</SheetClose> : headerLink}
       <nav className="flex-1 space-y-2">
         {navItems.map((item) => (
-          <NavLink key={item.href} {...item} />
+          <NavLink key={item.href} {...item} isSheet={isSheet} />
         ))}
       </nav>
       <div className="mt-auto">
-        <SheetClose asChild>
-          <button onClick={handleLogout} className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-gray-700 transition-all hover:bg-accent hover:text-primary-foreground">
-            <LogOut className="h-5 w-5" />
-            <span className="font-medium">Logout</span>
-          </button>
-        </SheetClose>
+        {isSheet ? <SheetClose asChild>{logoutButton}</SheetClose> : logoutButton}
       </div>
     </aside>
   );

@@ -50,7 +50,7 @@ const Navbar = () => {
                       </Button>
                   </SheetTrigger>
                   <SheetContent side="left" className="w-[280px] p-0">
-                      <Sidebar className="h-full w-full" />
+                      <Sidebar className="h-full w-full" isSheet />
                   </SheetContent>
               </Sheet>
           </div>
