@@ -10,12 +10,26 @@ import { PlayCircle, Clock } from 'lucide-react';
 import type { Video } from '@/lib/types';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { useToast } from '@/hooks/use-toast';
 
 
 const VideoCard = ({ video, onVideoSelect }: { video: Video; onVideoSelect: (video: Video) => void; }) => {
+    const { toast } = useToast();
     const placeholder = PlaceHolderImages.find(p => p.id === video.thumbnailUrl);
+
+    const handleClick = () => {
+        if (video.type === 'Training' || !video.youtubeUrl) {
+            toast({
+                title: 'Video Not Available',
+                description: 'There is no video linked for this training module yet.',
+            });
+        } else {
+            onVideoSelect(video);
+        }
+    };
+
     return (
-        <div onClick={() => onVideoSelect(video)} className="block group cursor-pointer">
+        <div onClick={handleClick} className="block group cursor-pointer">
             <Card className="overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1">
                 <CardHeader className="p-0">
                     {placeholder && (
