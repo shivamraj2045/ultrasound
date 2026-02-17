@@ -37,7 +37,7 @@ import type { Patient, BodyPart as BodyPartType } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { generatePathologyReport } from '@/actions/ultrasound';
-import { Loader2, Sparkles, FileText, CheckCircle } from 'lucide-radix';
+import { Loader2, Sparkles, FileText, CheckCircle } from 'lucide-react';
 import { ScanPathologyAnalysisOutput } from '@/ai/flows/scan-pathology-analysis';
 
 type ScanStep = 'select_patient' | 'select_part' | 'confirm_scan' | 'scanning' | 'generate_report' | 'view_report';

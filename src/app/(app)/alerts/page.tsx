@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { AlertTriangle, HardDrive, BellRing, Check } from 'lucide-radix';
+import { AlertTriangle, HardDrive, BellRing, Check } from 'lucide-react';
 import { alertsData } from '@/lib/data';
 import { Button } from '@/components/ui/button';
 
