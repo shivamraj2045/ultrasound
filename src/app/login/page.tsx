@@ -14,7 +14,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import Logo from '@/components/icons/Logo';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Copy } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -49,6 +49,13 @@ export default function LoginPage() {
     }, 1000);
   };
 
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast({
+        title: 'Copied to clipboard!',
+    });
+  }
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
       <Card className="mx-auto w-full max-w-sm">
@@ -63,6 +70,21 @@ export default function LoginPage() {
         </CardHeader>
         <CardContent>
           <div className="grid gap-4">
+             <div className="rounded-lg border bg-muted/50 p-4 text-sm space-y-2">
+                <p className="text-muted-foreground">Demo credentials:</p>
+                <div className='flex items-center justify-between'>
+                    <p>Email: <strong className="font-mono">contact@shivamraj</strong></p>
+                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => copyToClipboard('contact@shivamraj')}>
+                        <Copy className="h-3 w-3" />
+                    </Button>
+                </div>
+                <div className='flex items-center justify-between'>
+                    <p>Password: <strong className="font-mono">28462</strong></p>
+                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => copyToClipboard('28462')}>
+                        <Copy className="h-3 w-3" />
+                    </Button>
+                </div>
+            </div>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
