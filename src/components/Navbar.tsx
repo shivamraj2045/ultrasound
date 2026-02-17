@@ -32,7 +32,7 @@ const Navbar = () => {
                   </SheetContent>
               </Sheet>
           </div>
-          <h1 className="text-lg font-semibold text-foreground">Evergreen Clinic</h1>
+          <h1 className="text-lg font-semibold text-foreground">Ultrasound Project</h1>
       </div>
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2 rounded-full bg-secondary px-3 py-1 text-sm font-medium text-secondary-foreground">

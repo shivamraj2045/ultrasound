@@ -17,7 +17,7 @@ import { LogOut, Save } from 'lucide-react';
 
 const SettingsPage = () => {
     const { toast } = useToast();
-    const [clinicName, setClinicName] = useState('Evergreen Clinic');
+    const [clinicName, setClinicName] = useState('Ultrasound Project');
     const [doctorName, setDoctorName] = useState('Dr. Anjali Sharma');
     const [language, setLanguage] = useState('en');
     
