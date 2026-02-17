@@ -17,6 +17,7 @@ import {
 import Logo from '@/components/icons/Logo';
 import { cn } from '@/lib/utils';
 import { useAppContext } from '@/hooks/use-app-context';
+import { SheetClose } from './ui/sheet';
 
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -41,13 +42,15 @@ const NavLink = ({ href, icon: Icon, label }: { href: string; icon: React.Elemen
   };
 
   return (
-    <Link href={href} onClick={handleClick} className={cn(
-      "flex items-center gap-3 rounded-lg px-3 py-2 text-gray-700 transition-all hover:bg-accent hover:text-primary-foreground",
-      isActive && "bg-primary text-primary-foreground shadow-md"
-    )}>
-      <Icon className="h-5 w-5" />
-      <span className="font-medium">{label}</span>
-    </Link>
+    <SheetClose asChild>
+      <Link href={href} onClick={handleClick} className={cn(
+        "flex items-center gap-3 rounded-lg px-3 py-2 text-gray-700 transition-all hover:bg-accent hover:text-primary-foreground",
+        isActive && "bg-primary text-primary-foreground shadow-md"
+      )}>
+        <Icon className="h-5 w-5" />
+        <span className="font-medium">{label}</span>
+      </Link>
+    </SheetClose>
   );
 };
 
@@ -70,20 +73,24 @@ const Sidebar = ({ className }: { className?: string }) => {
 
   return (
     <aside className={cn("flex flex-col border-r bg-card p-4", className)}>
-      <Link href="/dashboard" onClick={handleHeaderClick} className="flex items-center gap-3 px-3 py-2 mb-6">
-        <Logo />
-        <span className="text-xl font-bold text-primary">Ultrasound Project</span>
-      </Link>
+      <SheetClose asChild>
+        <Link href="/dashboard" onClick={handleHeaderClick} className="flex items-center gap-3 px-3 py-2 mb-6">
+          <Logo />
+          <span className="text-xl font-bold text-primary">Ultrasound Project</span>
+        </Link>
+      </SheetClose>
       <nav className="flex-1 space-y-2">
         {navItems.map((item) => (
           <NavLink key={item.href} {...item} />
         ))}
       </nav>
       <div className="mt-auto">
-        <button onClick={handleLogout} className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-gray-700 transition-all hover:bg-accent hover:text-primary-foreground">
-          <LogOut className="h-5 w-5" />
-          <span className="font-medium">Logout</span>
-        </button>
+        <SheetClose asChild>
+          <button onClick={handleLogout} className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-gray-700 transition-all hover:bg-accent hover:text-primary-foreground">
+            <LogOut className="h-5 w-5" />
+            <span className="font-medium">Logout</span>
+          </button>
+        </SheetClose>
       </div>
     </aside>
   );
