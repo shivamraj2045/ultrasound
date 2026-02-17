@@ -27,6 +27,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+} from '@/components/ui/dialog';
 import { Progress } from '@/components/ui/progress';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
@@ -37,10 +45,70 @@ import type { Patient, BodyPart as BodyPartType } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { generatePathologyReport } from '@/actions/ultrasound';
-import { Loader2, Sparkles, FileText, CheckCircle } from 'lucide-react';
+import { Loader2, Sparkles, FileText, CheckCircle, PlusCircle } from 'lucide-react';
 import { ScanPathologyAnalysisOutput } from '@/ai/flows/scan-pathology-analysis';
 
 type ScanStep = 'select_patient' | 'select_part' | 'confirm_scan' | 'scanning' | 'generate_report' | 'view_report';
+
+const AddPatientForm = ({ onPatientAdded }: { onPatientAdded: (newPatient: Patient) => void }) => {
+    const { addPatient } = useAppContext();
+    const { toast } = useToast();
+    const [name, setName] = useState('');
+    const [age, setAge] = useState('');
+    const [gender, setGender] = useState<'Male' | 'Female' | 'Other' | ''>('');
+  
+    const handleSubmit = (e: React.FormEvent) => {
+      e.preventDefault();
+      if (!name || !age || !gender) {
+        toast({
+          variant: "destructive",
+          title: "Validation Error",
+          description: "Please fill in all fields.",
+        });
+        return;
+      }
+      const newPatient = addPatient({ name, age: parseInt(age), gender });
+      toast({
+        title: "Success",
+        description: "New patient has been added.",
+      });
+      setName('');
+      setAge('');
+      setGender('');
+      onPatientAdded(newPatient);
+    };
+  
+    return (
+      <form onSubmit={handleSubmit} className="space-y-4 pt-4">
+        <div className="space-y-2">
+          <Label htmlFor="name">Patient Name</Label>
+          <Input id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. John Doe" />
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="age">Age</Label>
+            <Input id="age" type="number" value={age} onChange={(e) => setAge(e.target.value)} placeholder="e.g. 42" />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="gender">Gender</Label>
+            <Select onValueChange={(value: any) => setGender(value)} value={gender}>
+              <SelectTrigger id="gender">
+                <SelectValue placeholder="Select gender" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Male">Male</SelectItem>
+                <SelectItem value="Female">Female</SelectItem>
+                <SelectItem value="Other">Other</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+        <DialogFooter>
+          <Button type="submit">Save Patient</Button>
+        </DialogFooter>
+      </form>
+    );
+};
 
 const UltrasoundPage = () => {
   const { patients, credits, addScan, findPatientById } = useAppContext();
@@ -51,6 +119,7 @@ const UltrasoundPage = () => {
   const [selectedPatientId, setSelectedPatientId] = useState<string>('');
   const [selectedPart, setSelectedPart] = useState<BodyPartType | null>(null);
   const [scanProgress, setScanProgress] = useState(0);
+  const [isAddPatientModalOpen, setIsAddPatientModalOpen] = useState(false);
 
   const [scanDescription, setScanDescription] = useState('');
   const [generatedReport, setGeneratedReport] = useState<ScanPathologyAnalysisOutput | null>(null);
@@ -76,6 +145,11 @@ const UltrasoundPage = () => {
   const handleSelectPatient = (patientId: string) => {
     setSelectedPatientId(patientId);
     setStep('select_part');
+  };
+
+  const handlePatientAdded = (newPatient: Patient) => {
+    setIsAddPatientModalOpen(false);
+    handleSelectPatient(newPatient.id);
   };
 
   const handleSelectPart = (part: BodyPartType) => {
@@ -146,10 +220,10 @@ const UltrasoundPage = () => {
           <Card className="w-full max-w-md">
             <CardHeader>
               <CardTitle>Step 1: Select Patient</CardTitle>
-              <CardDescription>Choose an existing patient to begin the scan.</CardDescription>
+              <CardDescription>Choose an existing patient or add a new one to begin the scan.</CardDescription>
             </CardHeader>
-            <CardContent>
-              <Select onValueChange={handleSelectPatient}>
+            <CardContent className="space-y-4">
+              <Select onValueChange={handleSelectPatient} value={selectedPatientId}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select a patient..." />
                 </SelectTrigger>
@@ -159,6 +233,20 @@ const UltrasoundPage = () => {
                   ))}
                 </SelectContent>
               </Select>
+              <Dialog open={isAddPatientModalOpen} onOpenChange={setIsAddPatientModalOpen}>
+                  <DialogTrigger asChild>
+                    <Button variant="outline" className="w-full">
+                      <PlusCircle className="mr-2 h-4 w-4" />
+                      Add New Patient
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                      <DialogTitle>Add New Patient</DialogTitle>
+                    </DialogHeader>
+                    <AddPatientForm onPatientAdded={handlePatientAdded} />
+                  </DialogContent>
+              </Dialog>
             </CardContent>
           </Card>
         );
