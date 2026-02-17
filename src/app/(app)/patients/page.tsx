@@ -215,83 +215,88 @@ const PatientsPage = () => {
                   <Logo className="h-16 w-16" />
                   <div>
                       <h1 className="text-3xl font-bold text-primary">SCAN REPORT</h1>
-                      <p className="text-sm text-gray-600">{selectedScan?.bodyPart} Scan</p>
+                      <p className="text-sm text-muted-foreground">{selectedScan?.bodyPart} Scan</p>
                   </div>
               </div>
-              <div className="text-right text-sm text-gray-700">
+              <div className="text-right text-sm">
                   <p className="font-bold">Ultrasound Project</p>
-                  <p>Dr. Anjali Sharma</p>
-                  <p>Shivalik College of Engineering, Dehradun</p>
+                  <p className="text-muted-foreground">Dr. Anjali Sharma</p>
+                  <p className="text-muted-foreground">Shivalik College of Engineering, Dehradun</p>
               </div>
             </header>
 
-            <section className="grid grid-cols-2 gap-x-8 gap-y-4 border-y py-4 mb-8">
-                <div>
-                    <p className="text-xs uppercase tracking-wider text-gray-500">Patient Name</p>
-                    <p className="font-semibold">{selectedPatient?.name}</p>
-                </div>
-                <div>
-                    <p className="text-xs uppercase tracking-wider text-gray-500">Scan Date</p>
-                    <p className="font-semibold">{selectedScan?.date}</p>
-                </div>
-                <div>
-                    <p className="text-xs uppercase tracking-wider text-gray-500">Age / Gender</p>
-                    <p className="font-semibold">{selectedPatient?.age} Years / {selectedPatient?.gender}</p>
-                </div>
-                  <div>
-                    <p className="text-xs uppercase tracking-wider text-gray-500">Scan ID</p>
-                    <p className="font-semibold">{selectedScan?.id}</p>
+            <section className="bg-muted/30 rounded-lg p-4 mb-8 border border-muted/50">
+                <h2 className="text-lg font-semibold mb-4 text-primary">Patient Details</h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-4">
+                    <div>
+                        <p className="text-xs uppercase tracking-wider text-muted-foreground">Patient Name</p>
+                        <p className="font-semibold">{selectedPatient?.name}</p>
+                    </div>
+                    <div>
+                        <p className="text-xs uppercase tracking-wider text-muted-foreground">Age / Gender</p>
+                        <p className="font-semibold">{selectedPatient?.age} Years / {selectedPatient?.gender}</p>
+                    </div>
+                    <div>
+                        <p className="text-xs uppercase tracking-wider text-muted-foreground">Scan Date</p>
+                        <p className="font-semibold">{selectedScan?.date}</p>
+                    </div>
+                    <div>
+                        <p className="text-xs uppercase tracking-wider text-muted-foreground">Scan ID</p>
+                        <p className="font-semibold">{selectedScan?.id}</p>
+                    </div>
                 </div>
             </section>
 
-            <section className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-              <div className="space-y-6">
+            <section className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
+                <div className="md:col-span-2 rounded-lg overflow-hidden border">
+                    {selectedScan?.imageUrl && (
+                        <Image
+                            src={selectedScan.imageUrl}
+                            alt={`Scan for ${selectedScan.bodyPart}`}
+                            width={800}
+                            height={800}
+                            className="object-cover w-full h-full"
+                        />
+                    )}
+                </div>
+                <div className="md:col-span-3 space-y-6">
                 {selectedScan?.report ? (
                     <>
-                        <div className="bg-primary/5 p-4 rounded-lg">
-                            <h3 className="font-bold text-primary mb-2">SCAN FINDINGS</h3>
-                            <p className="text-sm text-gray-700">{selectedScan.report.pathologyAnalysis}</p>
+                        <div>
+                            <h3 className="font-bold text-primary mb-2 text-lg">AI-Powered Analysis</h3>
+                            <div className="bg-primary/5 p-4 rounded-lg space-y-4 border border-primary/20">
+                                <div>
+                                    <h4 className="font-semibold text-primary/80 mb-1">Scan Findings</h4>
+                                    <p className="text-sm text-foreground/80">{selectedScan.report.pathologyAnalysis}</p>
+                                </div>
+                                <div>
+                                    <h4 className="font-semibold text-primary/80 mb-1">Confidence Level</h4>
+                                    <Badge variant={
+                                        selectedScan.report.confidenceLevel === 'High' ? 'default'
+                                        : selectedScan.report.confidenceLevel === 'Medium' ? 'secondary'
+                                        : 'destructive'
+                                    }>
+                                        {selectedScan.report.confidenceLevel}
+                                    </Badge>
+                                </div>
+                            </div>
                         </div>
                         <div>
-                            <h3 className="font-bold text-primary mb-2">AI-Powered Analysis</h3>
-                            <div className="grid grid-cols-2 gap-4">
-                              <div className="bg-gray-100 p-3 rounded-lg">
-                                <p className="text-xs text-gray-500">CONFIDENCE</p>
-                                <p className="font-semibold text-gray-800">{selectedScan.report.confidenceLevel}</p>
-                              </div>
-                            </div>
+                            <h3 className="font-bold text-primary mb-2 text-lg">Recommendations</h3>
+                            <ul className="list-disc list-inside text-sm text-foreground/80 space-y-2 pl-2">
+                                {selectedScan.report.recommendations.map((rec, i) => <li key={i}>{rec}</li>)}
+                            </ul>
                         </div>
                     </>
                 ) : (
-                    <div className="p-4 text-center text-gray-500 bg-gray-50 rounded-lg h-full flex items-center justify-center">
+                    <div className="p-4 text-center text-muted-foreground bg-muted/20 rounded-lg h-full flex items-center justify-center border border-dashed">
                         <p>No AI analysis available for this scan.</p>
                     </div>
                 )}
-              </div>
-              {selectedScan?.imageUrl && (
-                  <div className="rounded-lg overflow-hidden border-2 border-gray-200">
-                  <Image
-                      src={selectedScan.imageUrl}
-                      alt={`Scan for ${selectedScan.bodyPart}`}
-                      width={800}
-                      height={600}
-                      className="object-cover w-full"
-                  />
-                  </div>
-              )}
+                </div>
             </section>
-            
-            {selectedScan?.report && (
-              <section>
-                <h3 className="font-bold text-primary border-b-2 border-primary/30 pb-1 mb-3">RECOMMENDATIONS</h3>
-                <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
-                    {selectedScan.report.recommendations.map((rec, i) => <li key={i}>{rec}</li>)}
-                </ul>
-              </section>
-            )}
-
           </div>
-          <DialogFooter className="print:hidden bg-gray-50 p-3 border-t">
+          <DialogFooter className="print:hidden bg-muted/20 p-3 border-t">
             <Button variant="outline" onClick={handlePrint}>
               <Printer className="mr-2 h-4 w-4" />
               Print Report
