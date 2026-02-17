@@ -30,7 +30,7 @@ export const videosData: Video[] = [
   { id: 'v005', title: 'Kidney Ultrasound: Complete Guide', description: 'Specialist Training', thumbnailUrl: 'training-video', type: 'Training', duration: '28:40', youtubeUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
   { id: 'v006', title: 'Pregnancy Ultrasound: First Trimester', description: 'OB/GYN Series', thumbnailUrl: 'training-video', type: 'Training', duration: '38:50', youtubeUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
   { id: 'v007', title: 'How to Apply a Bandage Correctly', description: 'First Aid Basics', thumbnailUrl: 'educational-video', type: 'Educational', duration: '03:10', youtubeUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-  { id: 'v008', title: 'Using Antiseptics for Wound Care', description: 'First Aid Basics', thumbnailUrl: 'educational-video', type: 'Educational', duration: '04:55', youtubeUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+  { id: 'v008', title: 'Using Antiseptics for Wound Care', description: 'First Aid Basics', thumbnailUrl: 'educational-video', type: 'Educational', duration: '04:55', youtubeUrl: 'https://youtu.be/3kAWRs_hMxg?si=TaXHc1UC1gpYrVKC' },
   { id: 'v009', title: 'Applying a Hot Compress (Garam Patti)', description: 'Home Remedies', thumbnailUrl: 'educational-video', type: 'Educational', duration: '02:30', youtubeUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
 ];
 
