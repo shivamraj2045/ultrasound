@@ -51,7 +51,7 @@ const NavLink = ({ href, icon: Icon, label }: { href: string; icon: React.Elemen
   );
 };
 
-const Sidebar = () => {
+const Sidebar = ({ className }: { className?: string }) => {
   const pathname = usePathname();
   const { setIsLoading } = useAppContext();
   const router = useRouter();
@@ -69,7 +69,7 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className="hidden w-64 flex-col border-r bg-card p-4 md:flex">
+    <aside className={cn("flex flex-col border-r bg-card p-4", className)}>
       <Link href="/dashboard" onClick={handleHeaderClick} className="flex items-center gap-3 px-3 py-2 mb-6">
         <Logo />
         <span className="text-xl font-bold text-primary">Ultrasound Project</span>

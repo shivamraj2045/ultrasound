@@ -50,9 +50,7 @@ const Navbar = () => {
                       </Button>
                   </SheetTrigger>
                   <SheetContent side="left" className="w-[280px] p-0">
-                      <div className="flex h-full w-full flex-col border-r bg-card p-4">
-                        <Sidebar />
-                      </div>
+                      <Sidebar className="h-full w-full" />
                   </SheetContent>
               </Sheet>
           </div>
