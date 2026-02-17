@@ -50,39 +50,30 @@ const VideoCard = ({ video }: { video: Video }) => {
   
 const VideosPage = () => {
     const trainingVideos = videosData.filter((v) => v.type === 'Training');
-    const recordedScans = videosData.filter((v) => v.type === 'Recorded');
     const educationalVideos = videosData.filter((v) => v.type === 'Educational');
 
     return (
         <div className="flex flex-col gap-8">
             <div>
                 <h1 className="text-3xl font-bold tracking-tight">Video Library</h1>
-                <p className="text-muted-foreground mt-1">Training videos and recorded scans for professional development</p>
+                <p className="text-muted-foreground mt-1">Educational and training videos for professional development</p>
             </div>
       
-            <Tabs defaultValue="training">
+            <Tabs defaultValue="educational">
                 <TabsList>
-                    <TabsTrigger value="training">Training Videos</TabsTrigger>
-                    <TabsTrigger value="recorded">Recorded Scans</TabsTrigger>
                     <TabsTrigger value="educational">Educational</TabsTrigger>
+                    <TabsTrigger value="training">Training Videos</TabsTrigger>
                 </TabsList>
-                <TabsContent value="training" className="mt-6">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {trainingVideos.map((video) => (
-                            <VideoCard key={video.id} video={video} />
-                        ))}
-                    </div>
-                </TabsContent>
-                <TabsContent value="recorded" className="mt-6">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {recordedScans.map((video) => (
-                            <VideoCard key={video.id} video={video} />
-                        ))}
-                    </div>
-                </TabsContent>
                 <TabsContent value="educational" className="mt-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         {educationalVideos.map((video) => (
+                            <VideoCard key={video.id} video={video} />
+                        ))}
+                    </div>
+                </TabsContent>
+                <TabsContent value="training" className="mt-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {trainingVideos.map((video) => (
                             <VideoCard key={video.id} video={video} />
                         ))}
                     </div>
