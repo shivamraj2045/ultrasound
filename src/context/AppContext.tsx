@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useState, ReactNode, useMemo } from 'react';
+import { createContext, useState, ReactNode, useMemo, useCallback } from 'react';
 import type { Patient, Scan } from '@/lib/types';
 import { patientsData, scansData } from '@/lib/data';
 
@@ -16,6 +16,8 @@ interface AppContextType {
   addPatient: (patient: Omit<Patient, 'id' | 'totalScans' | 'lastScan'>) => Patient;
   addScan: (scan: Omit<Scan, 'id' | 'patientName'>) => void;
   findPatientById: (id: string) => Patient | undefined;
+  isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -25,8 +27,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [scans, setScans] = useState<Scan[]>(scansData);
   const [credits, setCredits] = useState<number>(150);
   const [subscriptionStatus, setSubscriptionStatus] = useState<'Active' | 'Inactive' | 'Expiring Soon'>('Active');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const addPatient = (patientData: Omit<Patient, 'id' | 'totalScans' | 'lastScan'>): Patient => {
+  const addPatient = useCallback((patientData: Omit<Patient, 'id' | 'totalScans' | 'lastScan'>): Patient => {
     const newPatient: Patient = {
       ...patientData,
       id: `p${String(patients.length + 1).padStart(3, '0')}`,
@@ -35,9 +38,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
     };
     setPatients(prev => [...prev, newPatient]);
     return newPatient;
-  };
+  }, [patients]);
 
-  const addScan = (scanData: Omit<Scan, 'id' | 'patientName'>) => {
+  const addScan = useCallback((scanData: Omit<Scan, 'id' | 'patientName'>) => {
     const patient = patients.find(p => p.id === scanData.patientId);
     if (!patient) return;
 
@@ -54,11 +57,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
         ? { ...p, totalScans: p.totalScans + 1, lastScan: newScan.date } 
         : p
     ));
-  };
+  }, [patients, scans]);
 
-  const findPatientById = (id: string) => {
+  const findPatientById = useCallback((id: string) => {
     return patients.find(p => p.id === id);
-  };
+  }, [patients]);
 
   const contextValue = useMemo(() => ({
     patients,
@@ -72,7 +75,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
     addPatient,
     addScan,
     findPatientById,
-  }), [patients, scans, credits, subscriptionStatus, addPatient, addScan, findPatientById]);
+    isLoading,
+    setIsLoading,
+  }), [patients, scans, credits, subscriptionStatus, isLoading, addPatient, addScan, findPatientById]);
 
   return (
     <AppContext.Provider value={contextValue}>

@@ -1,6 +1,43 @@
+'use client';
+
 import Navbar from '@/components/Navbar';
 import Sidebar from '@/components/Sidebar';
 import { AppProvider } from '@/context/AppContext';
+import { useAppContext } from '@/hooks/use-app-context';
+import { usePathname } from 'next/navigation';
+import React, { useEffect } from 'react';
+import { Loader2 } from 'lucide-react';
+
+function AppLayoutContent({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const { isLoading, setIsLoading } = useAppContext();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    // When the path changes, it means navigation is complete.
+    setIsLoading(false);
+  }, [pathname, setIsLoading]);
+
+  return (
+      <div className="flex min-h-screen w-full bg-background">
+        <Sidebar />
+        <div className="flex flex-1 flex-col">
+          <Navbar />
+          <main className="flex-1 p-4 md:p-6 lg:p-8 relative">
+            {isLoading && (
+              <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+                <Loader2 className="h-16 w-16 animate-spin text-primary" />
+              </div>
+            )}
+            {children}
+          </main>
+        </div>
+      </div>
+  );
+}
 
 export default function AppLayout({
   children,
@@ -9,15 +46,7 @@ export default function AppLayout({
 }) {
   return (
     <AppProvider>
-      <div className="flex min-h-screen w-full bg-background">
-        <Sidebar />
-        <div className="flex flex-1 flex-col">
-          <Navbar />
-          <main className="flex-1 p-4 md:p-6 lg:p-8">
-            {children}
-          </main>
-        </div>
-      </div>
+      <AppLayoutContent>{children}</AppLayoutContent>
     </AppProvider>
   );
 }
