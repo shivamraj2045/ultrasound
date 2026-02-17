@@ -4,8 +4,8 @@ import Navbar from '@/components/Navbar';
 import Sidebar from '@/components/Sidebar';
 import { AppProvider } from '@/context/AppContext';
 import { useAppContext } from '@/hooks/use-app-context';
-import { usePathname } from 'next/navigation';
-import React, { useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 import { Loader2 } from 'lucide-react';
 
 function AppLayoutContent({
@@ -15,11 +15,31 @@ function AppLayoutContent({
 }) {
   const { isLoading, setIsLoading } = useAppContext();
   const pathname = usePathname();
+  const router = useRouter();
+  const [isAuthChecked, setIsAuthChecked] = useState(false);
+
+  useEffect(() => {
+    const isAuthenticated = sessionStorage.getItem('isAuthenticated');
+    if (isAuthenticated !== 'true') {
+      router.replace('/login');
+    } else {
+      setIsAuthChecked(true);
+    }
+  }, [router]);
+
 
   useEffect(() => {
     // When the path changes, it means navigation is complete.
     setIsLoading(false);
   }, [pathname, setIsLoading]);
+
+  if (!isAuthChecked) {
+    return (
+      <div className="flex min-h-screen w-full items-center justify-center bg-background">
+        <Loader2 className="h-16 w-16 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
       <div className="flex min-h-screen w-full bg-background">

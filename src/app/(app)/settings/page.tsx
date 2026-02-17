@@ -14,9 +14,13 @@ import {
 } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { LogOut, Save } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useAppContext } from '@/hooks/use-app-context';
 
 const SettingsPage = () => {
     const { toast } = useToast();
+    const router = useRouter();
+    const { setIsLoading } = useAppContext();
     const [clinicName, setClinicName] = useState('Ultrasound Project');
     const [doctorName, setDoctorName] = useState('Dr. Anjali Sharma');
     const [language, setLanguage] = useState('en');
@@ -26,6 +30,12 @@ const SettingsPage = () => {
             title: "Settings Saved",
             description: "Your clinic information has been updated.",
         });
+    };
+
+    const handleLogout = () => {
+        setIsLoading(true);
+        sessionStorage.removeItem('isAuthenticated');
+        router.push('/login');
     };
 
     return (
@@ -66,7 +76,7 @@ const SettingsPage = () => {
                     </div>
                 </CardContent>
                 <CardFooter className="flex justify-end gap-2">
-                    <Button variant="outline">
+                    <Button variant="outline" onClick={handleLogout}>
                         <LogOut className="mr-2 h-4 w-4" />
                         Logout
                     </Button>

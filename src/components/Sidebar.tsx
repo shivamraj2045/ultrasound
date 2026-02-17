@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   LayoutDashboard,
   Users,
@@ -54,11 +54,18 @@ const NavLink = ({ href, icon: Icon, label }: { href: string; icon: React.Elemen
 const Sidebar = () => {
   const pathname = usePathname();
   const { setIsLoading } = useAppContext();
+  const router = useRouter();
   
   const handleHeaderClick = () => {
     if (pathname !== '/dashboard' && pathname !== '/') {
         setIsLoading(true);
     }
+  };
+
+  const handleLogout = () => {
+    setIsLoading(true);
+    sessionStorage.removeItem('isAuthenticated');
+    router.push('/login');
   };
 
   return (
@@ -73,7 +80,7 @@ const Sidebar = () => {
         ))}
       </nav>
       <div className="mt-auto">
-        <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-gray-700 transition-all hover:bg-accent hover:text-primary-foreground">
+        <button onClick={handleLogout} className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-gray-700 transition-all hover:bg-accent hover:text-primary-foreground">
           <LogOut className="h-5 w-5" />
           <span className="font-medium">Logout</span>
         </button>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import {
@@ -23,6 +23,10 @@ export default function LoginPage() {
   const [password, setPassword] = useState('28462');
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    sessionStorage.removeItem('isAuthenticated');
+  }, []);
+
   const handleLogin = () => {
     setIsLoading(true);
     // Simulate API call
@@ -32,6 +36,7 @@ export default function LoginPage() {
           title: 'Login Successful',
           description: 'Redirecting to your dashboard...',
         });
+        sessionStorage.setItem('isAuthenticated', 'true');
         router.push('/dashboard');
       } else {
         toast({
