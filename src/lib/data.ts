@@ -14,23 +14,23 @@ const sampleReport: ScanPathologyAnalysisOutput = {
 };
 
 export const patientsData: Patient[] = [
-  { id: 'p001', name: 'Aman Bhardwaj', age: 21, gender: 'Male', phone: '9876543210', address: 'Shivalik College of Engineering, Dehradun', totalScans: 2, lastScan: '2023-10-15' },
-  { id: 'p002', name: 'Ankit Raj', age: 22, gender: 'Male', phone: '9876543211', address: 'Shivalik College of Engineering, Dehradun', totalScans: 1, lastScan: '2023-09-22' },
-  { id: 'p003', name: 'Shivam Kumar', age: 20, gender: 'Male', phone: '9876543212', address: 'Shivalik College of Engineering, Dehradun', totalScans: 1, lastScan: '2023-11-01' },
-  { id: 'p004', name: 'Shivam Raj', age: 21, gender: 'Male', phone: '9876543213', address: 'Shivalik College of Engineering, Dehradun', totalScans: 1, lastScan: '2023-08-10' },
-  { id: 'p005', name: 'Priya Singh', age: 22, gender: 'Female', phone: '9876543214', address: 'Shivalik College of Engineering, Dehradun', totalScans: 0, lastScan: null },
+  { id: 'p001', name: 'Shivam Raj', age: 21, gender: 'Male', phone: '62990*****', address: '123 Demo St, Dehradun', totalScans: 2, lastScan: '2023-10-15' },
+  { id: 'p002', name: 'Rohan Verma', age: 22, gender: 'Male', phone: '62990*****', address: '456 Sample Ave, Dehradun', totalScans: 1, lastScan: '2023-09-22' },
+  { id: 'p003', name: 'Aditya Singh', age: 20, gender: 'Male', phone: '62990*****', address: '789 Test Rd, Dehradun', totalScans: 1, lastScan: '2023-11-01' },
+  { id: 'p004', name: 'Kabir Sharma', age: 21, gender: 'Male', phone: '62990*****', address: '101 Example Blvd, Dehradun', totalScans: 1, lastScan: '2023-08-10' },
+  { id: 'p005', name: 'Diya Mehta', age: 22, gender: 'Female', phone: '62990*****', address: '221B Baker Street, Dehradun', totalScans: 0, lastScan: null },
 ];
 
 export const scansData: Scan[] = [
-  { id: 's001', patientId: 'p001', patientName: 'Aman Bhardwaj', bodyPart: 'Cardiac', date: '2023-10-15', creditsUsed: 8, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s001/800/600', report: sampleReport },
-  { id: 's002', patientId: 'p002', patientName: 'Ankit Raj', bodyPart: 'Kidney', date: '2023-09-22', creditsUsed: 5, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s002/800/600', report: {...sampleReport, pathologyAnalysis: "Both kidneys appear normal in size and echotexture. No evidence of hydronephrosis, cysts, or calculi. Corticomedullary differentiation is well-preserved."} },
-  { id: 's003', patientId: 'p003', patientName: 'Shivam Kumar', bodyPart: 'Abdomen', date: '2023-11-01', creditsUsed: 4, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s003/800/600', report: sampleReport },
-  { id: 's004', patientId: 'p001', patientName: 'Aman Bhardwaj', bodyPart: 'Kidney', date: '2023-07-05', creditsUsed: 5, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s004/800/600', report: {...sampleReport, pathologyAnalysis: "A simple 2cm cyst is noted in the upper pole of the left kidney. This is likely a benign finding. The right kidney is unremarkable."} },
-  { id: 's005', patientId: 'p004', patientName: 'Shivam Raj', bodyPart: 'Right Hand', date: '2023-08-10', creditsUsed: 3, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s005/800/600', report: {...sampleReport, pathologyAnalysis: "No significant soft tissue or structural abnormalities detected in the scanned area of the right hand. No signs of inflammation or fluid collection."} },
+  { id: 's001', patientId: 'p001', patientName: 'Shivam Raj', bodyPart: 'Cardiac', date: '2023-10-15', creditsUsed: 8, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s001/800/600', report: sampleReport },
+  { id: 's002', patientId: 'p002', patientName: 'Rohan Verma', bodyPart: 'Kidney', date: '2023-09-22', creditsUsed: 5, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s002/800/600', report: {...sampleReport, pathologyAnalysis: "Both kidneys appear normal in size and echotexture. No evidence of hydronephrosis, cysts, or calculi. Corticomedullary differentiation is well-preserved."} },
+  { id: 's003', patientId: 'p003', patientName: 'Aditya Singh', bodyPart: 'Abdomen', date: '2023-11-01', creditsUsed: 4, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s003/800/600', report: sampleReport },
+  { id: 's004', patientId: 'p001', patientName: 'Shivam Raj', bodyPart: 'Kidney', date: '2023-07-05', creditsUsed: 5, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s004/800/600', report: {...sampleReport, pathologyAnalysis: "A simple 2cm cyst is noted in the upper pole of the left kidney. This is likely a benign finding. The right kidney is unremarkable."} },
+  { id: 's005', patientId: 'p004', patientName: 'Kabir Sharma', bodyPart: 'Right Hand', date: '2023-08-10', creditsUsed: 3, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s005/800/600', report: {...sampleReport, pathologyAnalysis: "No significant soft tissue or structural abnormalities detected in the scanned area of the right hand. No signs of inflammation or fluid collection."} },
 ];
 
 export const alertsData: Alert[] = [
-  { id: 'a001', type: 'Medical', title: 'Abnormal Cardiac Scan', description: "Patient Aman Bhardwaj's scan shows potential arrhythmia. Immediate review required.", timestamp: '2023-10-15T14:30:00Z', read: false },
+  { id: 'a001', type: 'Medical', title: 'Abnormal Cardiac Scan', description: "Patient Shivam Raj's scan shows potential arrhythmia. Immediate review required.", timestamp: '2023-10-15T14:30:00Z', read: false },
   { id: 'a002', type: 'Business', title: 'Low Credits', description: 'Your clinic has only 25 credits remaining. Please purchase more to avoid service interruption.', timestamp: '2023-11-02T09:00:00Z', read: false },
   { id: 'a003', type: 'System', title: 'Device Battery Low', description: 'Handheld device battery is at 15%. Please charge soon.', timestamp: '2023-11-03T11:45:00Z', read: true },
   { id: 'a004', type: 'Business', title: 'Subscription Expiring Soon', description: 'Your annual subscription will expire in 15 days.', timestamp: '2023-11-01T10:00:00Z', read: true },

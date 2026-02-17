@@ -19,8 +19,8 @@ import { Loader2, Copy } from 'lucide-react';
 export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
-  const [email, setEmail] = useState('contact@shivamraj');
-  const [password, setPassword] = useState('28462');
+  const [email, setEmail] = useState('shivam.raj@example.com');
+  const [password, setPassword] = useState('password123');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function LoginPage() {
     setIsLoading(true);
     // Simulate API call
     setTimeout(() => {
-      if (email === 'contact@shivamraj' && password === '28462') {
+      if (email === 'shivam.raj@example.com' && password === 'password123') {
         toast({
           title: 'Login Successful',
           description: 'Redirecting to your dashboard...',
@@ -73,14 +73,14 @@ export default function LoginPage() {
              <div className="rounded-lg border bg-muted/50 p-4 text-sm space-y-2">
                 <p className="text-muted-foreground">Demo credentials:</p>
                 <div className='flex items-center justify-between'>
-                    <p>Email: <strong className="font-mono">contact@shivamraj</strong></p>
-                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => copyToClipboard('contact@shivamraj')}>
+                    <p>Email: <strong className="font-mono">shivam.raj@example.com</strong></p>
+                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => copyToClipboard('shivam.raj@example.com')}>
                         <Copy className="h-3 w-3" />
                     </Button>
                 </div>
                 <div className='flex items-center justify-between'>
-                    <p>Password: <strong className="font-mono">28462</strong></p>
-                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => copyToClipboard('28462')}>
+                    <p>Password: <strong className="font-mono">password123</strong></p>
+                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => copyToClipboard('password123')}>
                         <Copy className="h-3 w-3" />
                     </Button>
                 </div>

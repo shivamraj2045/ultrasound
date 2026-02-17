@@ -20,9 +20,9 @@ import { Textarea } from '@/components/ui/textarea';
 const SettingsPage = () => {
     const { toast } = useToast();
     const [clinicName, setClinicName] = useState('Ultrasound Project');
-    const [doctorName, setDoctorName] = useState('Dr. Anjali Sharma');
-    const [phone, setPhone] = useState('9876543210');
-    const [address, setAddress] = useState('Shivalik College of Engineering, Dehradun');
+    const [doctorName, setDoctorName] = useState('Dr. Shivam Raj');
+    const [phone, setPhone] = useState('62990*****');
+    const [address, setAddress] = useState('123 Demo St, Example City');
     const [language, setLanguage] = useState('en');
     
     const handleSave = () => {
