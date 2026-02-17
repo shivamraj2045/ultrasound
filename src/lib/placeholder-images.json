@@ -1,3 +1,16 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "training-video",
+      "description": "A doctor explaining something to a colleague in a modern clinic setting.",
+      "imageUrl": "https://images.unsplash.com/photo-1663182115688-490b3948ed31?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxkb2N0b3IlMjBjbGluaWN8ZW58MHx8fHwxNzcxMzUzNDIzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "doctor clinic"
+    },
+    {
+      "id": "recorded-scan",
+      "description": "A close-up of an ultrasound scan on a monitor.",
+      "imageUrl": "https://images.unsplash.com/photo-1698913464331-b71a8d32b4da?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx1bHRyYXNvdW5kJTIwbW9uaXRvcnxlbnwwfHx8fDE3NzEzNTM0MjN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ultrasound monitor"
+    }
+  ]
 }
