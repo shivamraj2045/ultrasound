@@ -72,7 +72,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     addPatient,
     addScan,
     findPatientById,
-  }), [patients, scans, credits, subscriptionStatus]);
+  }), [patients, scans, credits, subscriptionStatus, addPatient, addScan, findPatientById]);
 
   return (
     <AppContext.Provider value={contextValue}>

@@ -3,6 +3,8 @@ export type Patient = {
   name: string;
   age: number;
   gender: 'Male' | 'Female' | 'Other';
+  phone: string;
+  address: string;
   totalScans: number;
   lastScan: string | null;
 };

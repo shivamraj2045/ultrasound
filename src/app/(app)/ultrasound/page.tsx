@@ -56,10 +56,12 @@ const AddPatientForm = ({ onPatientAdded }: { onPatientAdded: (newPatient: Patie
     const [name, setName] = useState('');
     const [age, setAge] = useState('');
     const [gender, setGender] = useState<'Male' | 'Female' | 'Other' | ''>('');
+    const [phone, setPhone] = useState('');
+    const [address, setAddress] = useState('');
   
     const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
-      if (!name || !age || !gender) {
+      if (!name || !age || !gender || !phone || !address) {
         toast({
           variant: "destructive",
           title: "Validation Error",
@@ -67,7 +69,7 @@ const AddPatientForm = ({ onPatientAdded }: { onPatientAdded: (newPatient: Patie
         });
         return;
       }
-      const newPatient = addPatient({ name, age: parseInt(age), gender });
+      const newPatient = addPatient({ name, age: parseInt(age), gender, phone, address });
       toast({
         title: "Success",
         description: "New patient has been added.",
@@ -75,6 +77,8 @@ const AddPatientForm = ({ onPatientAdded }: { onPatientAdded: (newPatient: Patie
       setName('');
       setAge('');
       setGender('');
+      setPhone('');
+      setAddress('');
       onPatientAdded(newPatient);
     };
   
@@ -102,6 +106,14 @@ const AddPatientForm = ({ onPatientAdded }: { onPatientAdded: (newPatient: Patie
               </SelectContent>
             </Select>
           </div>
+        </div>
+        <div className="space-y-2">
+            <Label htmlFor="phone">Phone Number</Label>
+            <Input id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="e.g. 9876543210" />
+        </div>
+        <div className="space-y-2">
+            <Label htmlFor="address">Address</Label>
+            <Textarea id="address" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="e.g. 123, Main St, Mumbai" />
         </div>
         <DialogFooter>
           <Button type="submit">Save Patient</Button>
@@ -189,7 +201,7 @@ const UltrasoundPage = () => {
     }
     startTransition(async () => {
         const result = await generatePathologyReport({
-            patientHistory: `Age: ${selectedPatient.age}, Gender: ${selectedPatient.gender}`,
+            patientHistory: `Age: ${selectedPatient.age}, Gender: ${selectedPatient.gender}, Phone: ${selectedPatient.phone}, Address: ${selectedPatient.address}`,
             bodyPart: selectedPart.name,
             ultrasoundScanDescription: scanDescription,
         });

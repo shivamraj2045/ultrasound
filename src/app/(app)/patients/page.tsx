@@ -10,88 +10,40 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogFooter,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Eye, PlusCircle } from 'lucide-react';
+import { Eye } from 'lucide-react';
 import { useAppContext } from '@/hooks/use-app-context';
 import type { Patient, Scan } from '@/lib/types';
-import { useToast } from "@/hooks/use-toast";
 
-const AddPatientForm = ({ onPatientAdded }: { onPatientAdded: () => void }) => {
-  const { addPatient } = useAppContext();
-  const { toast } = useToast();
-  const [name, setName] = useState('');
-  const [age, setAge] = useState('');
-  const [gender, setGender] = useState<'Male' | 'Female' | 'Other' | ''>('');
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name || !age || !gender) {
-      toast({
-        variant: "destructive",
-        title: "Validation Error",
-        description: "Please fill in all fields.",
-      });
-      return;
-    }
-    addPatient({ name, age: parseInt(age), gender });
-    toast({
-      title: "Success",
-      description: "New patient has been added.",
-    });
-    setName('');
-    setAge('');
-    setGender('');
-    onPatientAdded();
-  };
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="space-y-2">
-        <Label htmlFor="name">Patient Name</Label>
-        <Input id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. John Doe" />
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="age">Age</Label>
-          <Input id="age" type="number" value={age} onChange={(e) => setAge(e.target.value)} placeholder="e.g. 42" />
+const PatientDetails = ({ patient }: { patient: Patient }) => (
+    <Card className="mb-8">
+      <CardHeader>
+        <CardTitle>Patient Details</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-2 text-sm">
+        <div className="flex justify-between">
+          <span className="text-muted-foreground">Name:</span>
+          <span className="font-semibold">{patient.name}</span>
         </div>
-        <div className="space-y-2">
-          <Label htmlFor="gender">Gender</Label>
-          <Select onValueChange={(value: any) => setGender(value)} value={gender}>
-            <SelectTrigger id="gender">
-              <SelectValue placeholder="Select gender" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Male">Male</SelectItem>
-              <SelectItem value="Female">Female</SelectItem>
-              <SelectItem value="Other">Other</SelectItem>
-            </SelectContent>
-          </Select>
+        <div className="flex justify-between">
+          <span className="text-muted-foreground">Age:</span>
+          <span className="font-semibold">{patient.age}</span>
         </div>
-      </div>
-      <DialogFooter>
-        <Button type="submit">Save Patient</Button>
-      </DialogFooter>
-    </form>
-  );
-};
+        <div className="flex justify-between">
+          <span className="text-muted-foreground">Gender:</span>
+          <span className="font-semibold">{patient.gender}</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-muted-foreground">Phone:</span>
+          <span className="font-semibold">{patient.phone}</span>
+        </div>
+        <div className="flex justify-between items-start">
+          <span className="text-muted-foreground">Address:</span>
+          <span className="font-semibold text-right max-w-[70%]">{patient.address}</span>
+        </div>
+      </CardContent>
+    </Card>
+);
 
 const PatientHistory = ({ patient, scans }: { patient: Patient; scans: Scan[] }) => (
   <Card>
@@ -130,7 +82,6 @@ const PatientHistory = ({ patient, scans }: { patient: Patient; scans: Scan[] })
 const PatientsPage = () => {
   const { patients, scans } = useAppContext();
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const selectedPatientScans = useMemo(() => {
     if (!selectedPatient) return [];
@@ -145,23 +96,9 @@ const PatientsPage = () => {
     <div className="flex flex-col gap-8">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold tracking-tight">Patients</h1>
-        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <PlusCircle className="mr-2 h-4 w-4" />
-              Add Patient
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>Add New Patient</DialogTitle>
-            </DialogHeader>
-            <AddPatientForm onPatientAdded={() => setIsModalOpen(false)} />
-          </DialogContent>
-        </Dialog>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid md:grid-cols-2 gap-8 items-start">
         <Card>
             <CardHeader>
                 <CardTitle>Patient List</CardTitle>
@@ -200,10 +137,13 @@ const PatientsPage = () => {
 
         <div>
           {selectedPatient ? (
-            <PatientHistory patient={selectedPatient} scans={selectedPatientScans} />
+            <div>
+              <PatientDetails patient={selectedPatient} />
+              <PatientHistory patient={selectedPatient} scans={selectedPatientScans} />
+            </div>
           ) : (
-            <div className="flex items-center justify-center h-full rounded-lg border-2 border-dashed border-gray-300">
-                <p className="text-muted-foreground">Select a patient to view their history</p>
+            <div className="flex items-center justify-center h-full rounded-lg border-2 border-dashed border-gray-300 min-h-[400px]">
+                <p className="text-muted-foreground">Select a patient to view their details and scan history</p>
             </div>
           )}
         </div>

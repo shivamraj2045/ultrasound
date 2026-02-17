@@ -2,11 +2,11 @@ import type { Patient, Scan, Alert, Video, BodyPart } from '@/lib/types';
 import { Abdomen, Hand, Heart, Kidneys, PregnantWoman } from '@/components/icons/BodyParts';
 
 export const patientsData: Patient[] = [
-  { id: 'p001', name: 'Ramesh Kumar', age: 45, gender: 'Male', totalScans: 3, lastScan: '2023-10-15' },
-  { id: 'p002', name: 'Sita Sharma', age: 32, gender: 'Female', totalScans: 2, lastScan: '2023-09-22' },
-  { id: 'p003', name: 'Amit Patel', age: 51, gender: 'Male', totalScans: 5, lastScan: '2023-11-01' },
-  { id: 'p004', name: 'Priya Singh', age: 28, gender: 'Female', totalScans: 1, lastScan: '2023-08-10' },
-  { id: 'p005', name: 'Vijay Reddy', age: 62, gender: 'Male', totalScans: 4, lastScan: '2023-10-28' },
+  { id: 'p001', name: 'Ramesh Kumar', age: 45, gender: 'Male', phone: '9876543210', address: '123, Main St, Mumbai', totalScans: 3, lastScan: '2023-10-15' },
+  { id: 'p002', name: 'Sita Sharma', age: 32, gender: 'Female', phone: '9876543211', address: '456, Park Ave, Delhi', totalScans: 2, lastScan: '2023-09-22' },
+  { id: 'p003', name: 'Amit Patel', age: 51, gender: 'Male', phone: '9876543212', address: '789, MG Road, Bangalore', totalScans: 5, lastScan: '2023-11-01' },
+  { id: 'p004', name: 'Priya Singh', age: 28, gender: 'Female', phone: '9876543213', address: '321, Jubilee Hills, Hyderabad', totalScans: 1, lastScan: '2023-08-10' },
+  { id: 'p005', name: 'Vijay Reddy', age: 62, gender: 'Male', phone: '9876543214', address: '654, Anna Salai, Chennai', totalScans: 4, lastScan: '2023-10-28' },
 ];
 
 export const scansData: Scan[] = [
