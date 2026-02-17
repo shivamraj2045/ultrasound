@@ -23,6 +23,12 @@
       "description": "A person wrapping a crepe bandage around an ankle.",
       "imageUrl": "https://images.unsplash.com/photo-1628103576595-35a5ea1e9742?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhbmtsZSUyMGJhbmRhZ2V8ZW58MHx8fHwxNzcxNDI0MTAwfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "ankle bandage"
+    },
+    {
+      "id": "antiseptic-video",
+      "description": "A person applying antiseptic to a wound.",
+      "imageUrl": "https://images.unsplash.com/photo-1583946099360-a2e973d4c34c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhbnRpc2VwdGljJTIwd291bmQlMjBjYXJlfGVufDB8fHx8MTc3MTQ5NzcxOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "antiseptic wound"
     }
   ]
 }
