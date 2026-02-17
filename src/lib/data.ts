@@ -2,23 +2,23 @@ import type { Patient, Scan, Alert, Video, BodyPart } from '@/lib/types';
 import { Abdomen, Hand, Heart, Kidneys, PregnantWoman } from '@/components/icons/BodyParts';
 
 export const patientsData: Patient[] = [
-  { id: 'p001', name: 'Ramesh Kumar', age: 45, gender: 'Male', phone: '9876543210', address: '123, Main St, Mumbai', totalScans: 3, lastScan: '2023-10-15' },
-  { id: 'p002', name: 'Sita Sharma', age: 32, gender: 'Female', phone: '9876543211', address: '456, Park Ave, Delhi', totalScans: 2, lastScan: '2023-09-22' },
-  { id: 'p003', name: 'Amit Patel', age: 51, gender: 'Male', phone: '9876543212', address: '789, MG Road, Bangalore', totalScans: 5, lastScan: '2023-11-01' },
-  { id: 'p004', name: 'Priya Singh', age: 28, gender: 'Female', phone: '9876543213', address: '321, Jubilee Hills, Hyderabad', totalScans: 1, lastScan: '2023-08-10' },
-  { id: 'p005', name: 'Vijay Reddy', age: 62, gender: 'Male', phone: '9876543214', address: '654, Anna Salai, Chennai', totalScans: 4, lastScan: '2023-10-28' },
+  { id: 'p001', name: 'Aman Bhardwaj', age: 21, gender: 'Male', phone: '9876543210', address: 'Shivalik College of Engineering, Dehradun', totalScans: 2, lastScan: '2023-10-15' },
+  { id: 'p002', name: 'Ankit Raj', age: 22, gender: 'Male', phone: '9876543211', address: 'Shivalik College of Engineering, Dehradun', totalScans: 1, lastScan: '2023-09-22' },
+  { id: 'p003', name: 'Shivam Kumar', age: 20, gender: 'Male', phone: '9876543212', address: 'Shivalik College of Engineering, Dehradun', totalScans: 1, lastScan: '2023-11-01' },
+  { id: 'p004', name: 'Shivam Raj', age: 21, gender: 'Male', phone: '9876543213', address: 'Shivalik College of Engineering, Dehradun', totalScans: 1, lastScan: '2023-08-10' },
+  { id: 'p005', name: 'Priya Singh', age: 22, gender: 'Female', phone: '9876543214', address: 'Shivalik College of Engineering, Dehradun', totalScans: 0, lastScan: null },
 ];
 
 export const scansData: Scan[] = [
-  { id: 's001', patientId: 'p001', patientName: 'Ramesh Kumar', bodyPart: 'Cardiac', date: '2023-10-15', creditsUsed: 8, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s001/300/200' },
-  { id: 's002', patientId: 'p002', patientName: 'Sita Sharma', bodyPart: 'Pregnancy', date: '2023-09-22', creditsUsed: 6, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s002/300/200' },
-  { id: 's003', patientId: 'p003', patientName: 'Amit Patel', bodyPart: 'Abdomen', date: '2023-11-01', creditsUsed: 4, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s003/300/200' },
-  { id: 's004', patientId: 'p001', patientName: 'Ramesh Kumar', bodyPart: 'Kidney', date: '2023-07-05', creditsUsed: 5, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s004/300/200' },
-  { id: 's005', patientId: 'p004', patientName: 'Priya Singh', bodyPart: 'Right Hand', date: '2023-08-10', creditsUsed: 3, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s005/300/200' },
+  { id: 's001', patientId: 'p001', patientName: 'Aman Bhardwaj', bodyPart: 'Cardiac', date: '2023-10-15', creditsUsed: 8, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s001/300/200' },
+  { id: 's002', patientId: 'p002', patientName: 'Ankit Raj', bodyPart: 'Pregnancy', date: '2023-09-22', creditsUsed: 6, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s002/300/200' },
+  { id: 's003', patientId: 'p003', patientName: 'Shivam Kumar', bodyPart: 'Abdomen', date: '2023-11-01', creditsUsed: 4, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s003/300/200' },
+  { id: 's004', patientId: 'p001', patientName: 'Aman Bhardwaj', bodyPart: 'Kidney', date: '2023-07-05', creditsUsed: 5, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s004/300/200' },
+  { id: 's005', patientId: 'p004', patientName: 'Shivam Raj', bodyPart: 'Right Hand', date: '2023-08-10', creditsUsed: 3, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s005/300/200' },
 ];
 
 export const alertsData: Alert[] = [
-  { id: 'a001', type: 'Medical', title: 'Abnormal Cardiac Scan', description: 'Patient Ramesh Kumar\'s scan shows potential arrhythmia. Immediate review required.', timestamp: '2023-10-15T14:30:00Z', read: false },
+  { id: 'a001', type: 'Medical', title: 'Abnormal Cardiac Scan', description: "Patient Aman Bhardwaj's scan shows potential arrhythmia. Immediate review required.", timestamp: '2023-10-15T14:30:00Z', read: false },
   { id: 'a002', type: 'Business', title: 'Low Credits', description: 'Your clinic has only 25 credits remaining. Please purchase more to avoid service interruption.', timestamp: '2023-11-02T09:00:00Z', read: false },
   { id: 'a003', type: 'System', title: 'Device Battery Low', description: 'Handheld device battery is at 15%. Please charge soon.', timestamp: '2023-11-03T11:45:00Z', read: true },
   { id: 'a004', type: 'Business', title: 'Subscription Expiring Soon', description: 'Your annual subscription will expire in 15 days.', timestamp: '2023-11-01T10:00:00Z', read: true },
