@@ -1,6 +1,7 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useMemo, useRef } from 'react';
+import Image from 'next/image';
 import {
   Table,
   TableBody,
@@ -16,7 +17,16 @@ import { useAppContext } from '@/hooks/use-app-context';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
-import type { Scan } from '@/lib/types';
+import type { Patient, Scan } from '@/lib/types';
+import {
+    Dialog,
+    DialogContent,
+    DialogFooter,
+} from '@/components/ui/dialog';
+import { Printer, Download } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import Logo from '@/components/icons/Logo';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const statusStyles: Record<string, string> = {
   Completed: "bg-green-100 text-green-800 border-green-200 hover:bg-green-100",
@@ -27,67 +37,228 @@ const statusStyles: Record<string, string> = {
 
 
 const ScansPage = () => {
-  const { scans } = useAppContext();
+  const { scans, findPatientById } = useAppContext();
+  const { toast } = useToast();
+  const [selectedScan, setSelectedScan] = useState<Scan | null>(null);
+  const reportRef = useRef<HTMLDivElement>(null);
+
+  const selectedPatient = useMemo(() => {
+    if (!selectedScan) return null;
+    return findPatientById(selectedScan.patientId);
+  }, [selectedScan, findPatientById]);
+
 
   const getPatientInitials = (name: string) => {
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
   }
 
+  const handleViewReport = (scan: Scan) => {
+    setSelectedScan(scan);
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const handleDownload = () => {
+    if (!selectedScan?.imageUrl) return;
+    const link = document.createElement('a');
+    link.href = selectedScan.imageUrl;
+    link.download = `scan-report-${selectedScan.id}.jpg`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toast({
+        title: "Download Started",
+        description: `Downloading report for scan ${selectedScan.id}.`,
+    });
+  };
+
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">Scan History</h1>
-        <p className="text-muted-foreground mt-1">Review all ultrasound scans performed at your clinic</p>
-      </div>
-      <Card className="shadow-sm">
-        <CardContent className="p-0">
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-muted/50 hover:bg-muted/50">
-                <TableHead className="pl-6 uppercase tracking-wider font-medium text-muted-foreground text-xs">Patient Name</TableHead>
-                <TableHead className="uppercase tracking-wider font-medium text-muted-foreground text-xs">Scan Type</TableHead>
-                <TableHead className="uppercase tracking-wider font-medium text-muted-foreground text-xs">Date & Time</TableHead>
-                <TableHead className="uppercase tracking-wider font-medium text-muted-foreground text-xs text-center">Credits Used</TableHead>
-                <TableHead className="uppercase tracking-wider font-medium text-muted-foreground text-xs">Status</TableHead>
-                <TableHead className="pr-6 uppercase tracking-wider font-medium text-muted-foreground text-xs text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {scans.slice().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map((scan) => (
-                <TableRow key={scan.id}>
-                  <TableCell className="font-medium pl-6 py-3">
-                    <div className="flex items-center gap-3">
-                      <Avatar className="h-9 w-9">
-                          <AvatarFallback className="bg-primary/20 text-primary font-semibold">
-                              {getPatientInitials(scan.patientName)}
-                          </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="font-semibold text-foreground">{scan.patientName}</p>
-                        <p className="text-xs text-muted-foreground">PID-{scan.patientId.replace('p', '')}</p>
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell className="py-3">{scan.bodyPart}</TableCell>
-                  <TableCell className="py-3">{format(new Date(scan.date), 'MMM d, yyyy • HH:mm')}</TableCell>
-                  <TableCell className="text-center py-3">{scan.creditsUsed}</TableCell>
-                  <TableCell className="py-3">
-                    <Badge variant="outline" className={cn("font-semibold", statusStyles[scan.status] || statusStyles['Pending'])}>
-                      {scan.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-right pr-6 py-3">
-                    <Button variant="link" size="sm" className="p-0 h-auto font-semibold hover:no-underline text-primary">
-                      {scan.status === 'Flagged' ? 'Review' : 'View Report'}
-                    </Button>
-                  </TableCell>
+    <>
+      <div className="flex flex-col gap-6">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">Scan History</h1>
+          <p className="text-muted-foreground mt-1">Review all ultrasound scans performed at your clinic</p>
+        </div>
+        <Card className="shadow-sm">
+          <CardContent className="p-0">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-muted/50 hover:bg-muted/50">
+                  <TableHead className="pl-6 uppercase tracking-wider font-medium text-muted-foreground text-xs">Patient Name</TableHead>
+                  <TableHead className="uppercase tracking-wider font-medium text-muted-foreground text-xs">Scan Type</TableHead>
+                  <TableHead className="uppercase tracking-wider font-medium text-muted-foreground text-xs">Date & Time</TableHead>
+                  <TableHead className="uppercase tracking-wider font-medium text-muted-foreground text-xs text-center">Credits Used</TableHead>
+                  <TableHead className="uppercase tracking-wider font-medium text-muted-foreground text-xs">Status</TableHead>
+                  <TableHead className="pr-6 uppercase tracking-wider font-medium text-muted-foreground text-xs text-right">Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
-    </div>
+              </TableHeader>
+              <TableBody>
+                {scans.slice().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map((scan) => (
+                  <TableRow key={scan.id}>
+                    <TableCell className="font-medium pl-6 py-3">
+                      <div className="flex items-center gap-3">
+                        <Avatar className="h-9 w-9">
+                            <AvatarFallback className="bg-primary/20 text-primary font-semibold">
+                                {getPatientInitials(scan.patientName)}
+                            </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="font-semibold text-foreground">{scan.patientName}</p>
+                          <p className="text-xs text-muted-foreground">PID-{scan.patientId.replace('p', '')}</p>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell className="py-3">{scan.bodyPart}</TableCell>
+                    <TableCell className="py-3">{format(new Date(scan.date), 'MMM d, yyyy • HH:mm')}</TableCell>
+                    <TableCell className="text-center py-3">{scan.creditsUsed}</TableCell>
+                    <TableCell className="py-3">
+                      <Badge variant="outline" className={cn("font-semibold", statusStyles[scan.status] || statusStyles['Pending'])}>
+                        {scan.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-right pr-6 py-3">
+                      <Button variant="link" size="sm" className="p-0 h-auto font-semibold hover:no-underline text-primary" onClick={() => handleViewReport(scan)}>
+                        {scan.status === 'Flagged' ? 'Review' : 'View Report'}
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      </div>
+
+      <Dialog open={!!selectedScan} onOpenChange={(isOpen) => !isOpen && setSelectedScan(null)}>
+        <DialogContent className="sm:max-w-4xl p-0 printable-area max-h-[90vh] flex flex-col">
+          <ScrollArea className="flex-1">
+            <div ref={reportRef} className="printable-content bg-white p-8 text-black">
+              <header className="flex justify-between items-start mb-8">
+                <div className="flex items-center gap-4">
+                    <Logo className="h-16 w-16" />
+                    <div>
+                        <h1 className="text-3xl font-bold text-primary">SCAN REPORT</h1>
+                        <p className="text-sm text-muted-foreground">{selectedScan?.bodyPart} Scan</p>
+                    </div>
+                </div>
+                <div className="text-right text-sm">
+                    <p className="font-bold">Ultrasound Project</p>
+                    <p className="text-muted-foreground">Dr. Shivam Raj</p>
+                    <p className="text-muted-foreground">123 Demo St, Example City</p>
+                </div>
+              </header>
+
+              <section className="bg-muted/30 rounded-lg p-4 mb-8 border border-muted/50">
+                  <h2 className="text-lg font-semibold mb-4 text-primary">Patient Details</h2>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-4">
+                      <div>
+                          <p className="text-xs uppercase tracking-wider text-muted-foreground">Patient Name</p>
+                          <p className="font-semibold">{selectedPatient?.name}</p>
+                      </div>
+                      <div>
+                          <p className="text-xs uppercase tracking-wider text-muted-foreground">Age / Gender</p>
+                          <p className="font-semibold">{selectedPatient?.age} Years / {selectedPatient?.gender}</p>
+                      </div>
+                      <div>
+                          <p className="text-xs uppercase tracking-wider text-muted-foreground">Scan Date</p>
+                          <p className="font-semibold">{selectedScan?.date ? format(new Date(selectedScan.date), 'MMM d, yyyy') : 'N/A'}</p>
+                      </div>
+                      <div>
+                          <p className="text-xs uppercase tracking-wider text-muted-foreground">Scan ID</p>
+                          <p className="font-semibold">{selectedScan?.id}</p>
+                      </div>
+                  </div>
+              </section>
+
+              <section className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
+                  <div className="md:col-span-2 rounded-lg overflow-hidden border">
+                      {selectedScan?.imageUrl && (
+                          <Image
+                              src={selectedScan.imageUrl}
+                              alt={`Scan for ${selectedScan?.bodyPart}`}
+                              width={800}
+                              height={800}
+                              className="object-cover w-full h-full"
+                          />
+                      )}
+                  </div>
+                  <div className="md:col-span-3 space-y-6">
+                  {selectedScan?.report ? (
+                      <>
+                          <div>
+                              <h3 className="font-bold text-primary mb-2 text-lg">AI-Powered Analysis</h3>
+                              <div className="bg-primary/5 p-4 rounded-lg space-y-4 border border-primary/20">
+                                  <div>
+                                      <h4 className="font-semibold text-primary/80 mb-1">Scan Findings</h4>
+                                      <p className="text-sm text-foreground/80">{selectedScan.report.pathologyAnalysis}</p>
+                                  </div>
+                                  <div>
+                                      <h4 className="font-semibold text-primary/80 mb-1">Confidence Level</h4>
+                                      <Badge variant={
+                                          selectedScan.report.confidenceLevel === 'High' ? 'default'
+                                          : selectedScan.report.confidenceLevel === 'Medium' ? 'secondary'
+                                          : 'destructive'
+                                      }>
+                                          {selectedScan.report.confidenceLevel}
+                                      </Badge>
+                                  </div>
+                              </div>
+                          </div>
+                          <div>
+                              <h3 className="font-bold text-primary mb-2 text-lg">Recommendations</h3>
+                              <ul className="list-disc list-inside text-sm text-foreground/80 space-y-2 pl-2">
+                                  {selectedScan.report.recommendations.map((rec, i) => <li key={i}>{rec}</li>)}
+                              </ul>
+                          </div>
+                      </>
+                  ) : (
+                      <div className="p-4 text-center text-muted-foreground bg-muted/20 rounded-lg h-full flex items-center justify-center border border-dashed">
+                          <p>No AI analysis available for this scan.</p>
+                      </div>
+                  )}
+                  </div>
+              </section>
+            </div>
+          </ScrollArea>
+          <DialogFooter className="print:hidden bg-muted/20 p-3 border-t">
+            <Button variant="outline" onClick={handlePrint}>
+              <Printer className="mr-2 h-4 w-4" />
+              Print Report
+            </Button>
+            <Button onClick={handleDownload}>
+              <Download className="mr-2 h-4 w-4" />
+              Download Image
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      <style jsx global>{`
+        @media print {
+          body > *:not(.printable-area) {
+            display: none;
+          }
+          .printable-area {
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: auto;
+            background: white;
+            border: none;
+            box-shadow: none;
+            padding: 2rem;
+            margin: 0;
+          }
+           .printable-content {
+            display: block;
+            color: black;
+          }
+        }
+      `}</style>
+    </>
   );
 };
 
