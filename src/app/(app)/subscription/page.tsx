@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import {
@@ -36,9 +36,11 @@ const packageIcons = {
   Enterprise: Rocket,
 };
 
+type CreditPackage = typeof creditPackages[number];
+
 const SubscriptionPage = () => {
     const { credits } = useAppContext();
-    const [selectedPackage, setSelectedPackage] = useState<typeof creditPackages[number] | null>(null);
+    const [selectedPackage, setSelectedPackage] = useState<CreditPackage | null>(null);
     const qrCodePlaceholder = PlaceHolderImages.find(p => p.id === 'qr-code');
     const totalCredits = 1000; // Assuming a total for progress calculation
     const creditPercentage = (credits / totalCredits) * 100;
