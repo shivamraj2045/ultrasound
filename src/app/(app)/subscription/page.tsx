@@ -38,7 +38,7 @@ const packageIcons = {
 
 const SubscriptionPage = () => {
     const { credits } = useAppContext();
-    const [selectedPackage, setSelectedPackage] = useState<(typeof creditPackages[number]) & { name: string } | null>(null);
+    const [selectedPackage, setSelectedPackage] = useState<typeof creditPackages[number] | null>(null);
     const qrCodePlaceholder = PlaceHolderImages.find(p => p.id === 'qr-code');
     const totalCredits = 1000; // Assuming a total for progress calculation
     const creditPercentage = (credits / totalCredits) * 100;
