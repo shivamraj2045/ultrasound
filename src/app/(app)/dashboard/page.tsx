@@ -47,7 +47,7 @@ const lineChartData = [
 const DashboardPage = () => {
   const { patients, scans, credits, subscriptionStatus } = useAppContext();
   const { toast } = useToast();
-  const [deviceStatus, setDeviceStatus] = useState<'Connected' | 'Disconnected' | 'Connecting'>('Connected');
+  const [deviceStatus, setDeviceStatus] = useState<'Connected' | 'Disconnected' | 'Connecting'>('Disconnected');
   const [isDeviceInfoOpen, setIsDeviceInfoOpen] = useState(false);
 
   const handleReconnect = () => {
@@ -58,10 +58,11 @@ const DashboardPage = () => {
     });
 
     setTimeout(() => {
-        setDeviceStatus('Connected');
+        setDeviceStatus('Disconnected');
         toast({
-            title: 'Success!',
-            description: 'Device reconnected successfully.',
+            variant: "destructive",
+            title: 'Connection Failed',
+            description: 'Please check our plugin properly or adjust the cable again.',
         });
     }, 2000);
   };
@@ -163,7 +164,7 @@ const DashboardPage = () => {
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Status</span>
                   <span className="font-semibold flex items-center gap-2">
-                    <div className="h-2 w-2 rounded-full bg-green-500" /> Connected
+                    <div className={`h-2 w-2 rounded-full ${deviceStatus === 'Connected' ? 'bg-green-500' : 'bg-red-500'}`} /> {deviceStatus}
                   </span>
                 </div>
               </div>
