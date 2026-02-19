@@ -6,11 +6,12 @@ import {
   Users,
   Scan,
   Coins,
-  BadgeCheck,
   Plug,
   RefreshCw,
   Info,
   Loader2,
+  ArrowUp,
+  CheckCircle2,
 } from 'lucide-react';
 import { useAppContext } from '@/hooks/use-app-context';
 import { Bar, BarChart as RechartsBarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid, Line, LineChart as RechartsLineChart } from 'recharts';
@@ -25,6 +26,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { cn } from '@/lib/utils';
 
 const barChartData = [
   { name: 'Abdomen', scans: 40 },
@@ -45,7 +47,7 @@ const lineChartData = [
 ];
 
 const DashboardPage = () => {
-  const { patients, scans, credits, subscriptionStatus } = useAppContext();
+  const { patients, scans, credits } = useAppContext();
   const { toast } = useToast();
   const [deviceStatus, setDeviceStatus] = useState<'Connected' | 'Disconnected' | 'Connecting'>('Disconnected');
   const [isDeviceInfoOpen, setIsDeviceInfoOpen] = useState(false);
@@ -68,26 +70,38 @@ const DashboardPage = () => {
   };
 
 
-  const StatCard = ({ title, value, icon: Icon }: { title: string; value: string | number; icon: React.ElementType }) => (
+  const StatCard = ({ title, value, icon: Icon, subtext, subtextIcon: SubtextIcon, subtextIconClass }: { title: string; value: string | number; icon: React.ElementType; subtext: string; subtextIcon?: React.ElementType; subtextIconClass?: string }) => (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
-        <Icon className="h-4 w-4 text-muted-foreground" />
+        <CardTitle className="text-sm font-medium uppercase text-muted-foreground">{title}</CardTitle>
+        <div className="p-2 bg-primary/10 rounded-md">
+            <Icon className="h-5 w-5 text-primary" />
+        </div>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">{value}</div>
+        <div className="text-4xl font-bold">{value}</div>
+        <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
+            {SubtextIcon && <SubtextIcon className={cn("h-3 w-3", subtextIconClass)} />}
+            <span>{subtext}</span>
+        </p>
       </CardContent>
     </Card>
   );
 
+  const totalCredits = 1000;
+  const creditPercentage = Math.round((credits / totalCredits) * 100);
+
   return (
     <div className="flex flex-col gap-8">
-      <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard title="Total Patients" value={patients.length} icon={Users} />
-        <StatCard title="Total Scans" value={scans.length} icon={Scan} />
-        <StatCard title="Credits Remaining" value={credits} icon={Coins} />
-        <StatCard title="Subscription" value={subscriptionStatus} icon={BadgeCheck} />
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight text-primary">Dashboard Overview</h1>
+        <p className="text-muted-foreground">Welcome back, Dr. Sharma. Here's your clinic summary for today.</p>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <StatCard title="Total Patients" value={patients.length} icon={Users} subtext="+12 this month" subtextIcon={ArrowUp} subtextIconClass="text-green-500" />
+        <StatCard title="Total Scans" value={scans.length} icon={Scan} subtext="+28 this month" subtextIcon={ArrowUp} subtextIconClass="text-green-500" />
+        <StatCard title="Credits Remaining" value={credits} icon={Coins} subtext={`${creditPercentage}% remaining`} subtextIcon={CheckCircle2} subtextIconClass="text-green-500" />
       </div>
 
       <Card>
