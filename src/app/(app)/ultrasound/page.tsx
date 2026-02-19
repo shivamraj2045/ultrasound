@@ -47,7 +47,7 @@ import type { Patient, BodyPart as BodyPartType } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { generatePathologyReport } from '@/actions/ultrasound';
-import { Loader2, Sparkles, FileText, CheckCircle, PlusCircle } from 'lucide-react';
+import { Loader2, Sparkles, FileText, CheckCircle, PlusCircle, Pause, Pen, Settings, Circle } from 'lucide-react';
 import { ScanPathologyAnalysisOutput } from '@/ai/flows/scan-pathology-analysis';
 import Logo from '@/components/icons/Logo';
 import { Badge } from '@/components/ui/badge';
@@ -134,7 +134,6 @@ const UltrasoundPage = () => {
   const [step, setStep] = useState<ScanStep>('select_patient');
   const [selectedPatientId, setSelectedPatientId] = useState<string>('');
   const [selectedPart, setSelectedPart] = useState<BodyPartType | null>(null);
-  const [scanProgress, setScanProgress] = useState(0);
   const [isAddPatientModalOpen, setIsAddPatientModalOpen] = useState(false);
   const [scanImageUrl, setScanImageUrl] = useState<string>('');
 
@@ -142,22 +141,6 @@ const UltrasoundPage = () => {
   const [generatedReport, setGeneratedReport] = useState<ScanPathologyAnalysisOutput | null>(null);
 
   const selectedPatient = useMemo(() => findPatientById(selectedPatientId), [selectedPatientId, findPatientById]);
-
-  useEffect(() => {
-    if (step === 'scanning') {
-      const interval = setInterval(() => {
-        setScanProgress((prev) => {
-          if (prev >= 100) {
-            clearInterval(interval);
-            setStep('generate_report');
-            return 100;
-          }
-          return prev + 10;
-        });
-      }, 300);
-      return () => clearInterval(interval);
-    }
-  }, [step]);
   
   const handleSelectPatient = (patientId: string) => {
     setSelectedPatientId(patientId);
@@ -228,7 +211,6 @@ const UltrasoundPage = () => {
     setStep('select_patient');
     setSelectedPatientId('');
     setSelectedPart(null);
-    setScanProgress(0);
     setScanDescription('');
     setGeneratedReport(null);
     setScanImageUrl('');
@@ -305,19 +287,65 @@ const UltrasoundPage = () => {
         );
       case 'scanning':
         return (
-            <Card className="w-full max-w-xl text-center">
-                <CardHeader>
-                    <CardTitle>Scanning in Progress...</CardTitle>
-                    <CardDescription>Please hold the device steady.</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="bg-gray-900 rounded-lg aspect-video flex items-center justify-center text-white/50 animate-pulse" data-ai-hint="ultrasound scan">
-                        <p>Live Scan Preview</p>
-                    </div>
-                    <Progress value={scanProgress} />
-                    <p>{scanProgress}% complete</p>
-                </CardContent>
-            </Card>
+          <div className="w-full max-w-5xl mx-auto bg-[#1e293b] text-slate-100 rounded-lg shadow-2xl overflow-hidden border border-slate-700">
+            <header className="p-4 flex justify-between items-center bg-slate-900/50">
+              <div className="flex items-center gap-3">
+                <Logo className="h-7 w-7" />
+                <h2 className="text-xl font-semibold">Live Scan Preview</h2>
+              </div>
+              <Badge variant="outline" className="text-green-400 border-green-400/50 bg-green-900/30">
+                <span className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-ping absolute opacity-75"></span>
+                <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
+                Device Active
+              </Badge>
+            </header>
+      
+            <main className="relative h-[450px] md:h-[500px] bg-slate-900">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center text-slate-600">
+                  <p className="text-2xl font-light tracking-widest">ULTRASOUND LIVE FEED</p>
+                  <div className="absolute inset-0">
+                    <div className="absolute top-1/2 left-0 w-full h-px bg-cyan-400/10"></div>
+                    <div className="absolute left-1/2 top-0 h-full w-px bg-cyan-400/10"></div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="absolute top-0 left-0 right-0 h-full overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-0.5 bg-cyan-400 shadow-[0_0_10px_#00ffff,0_0_20px_#00ffff] scan-line"></div>
+              </div>
+      
+              <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-sm rounded-md p-1 flex items-center gap-1 border border-slate-700">
+                  <Button variant="ghost" size="icon" className="text-white h-8 w-8 hover:bg-white/10"><Pause className="h-4 w-4" /></Button>
+                  <Button variant="ghost" size="icon" className="text-white h-8 w-8 hover:bg-white/10"><Pen className="h-4 w-4" /></Button>
+                  <Button variant="ghost" size="icon" className="text-white h-8 w-8 hover:bg-white/10"><Circle className="h-4 w-4" /></Button>
+                  <Button variant="ghost" size="icon" className="text-white h-8 w-8 hover:bg-white/10"><Settings className="h-4 w-4" /></Button>
+              </div>
+            </main>
+      
+            <footer className="p-4 bg-slate-900/50 flex justify-end items-center">
+              <div className="flex items-center gap-4">
+                <Button onClick={() => setStep('generate_report')} size="lg">
+                  Start Scan
+                </Button>
+                <div className="font-mono text-lg bg-black/50 px-4 py-2 rounded-md">
+                  00:00
+                </div>
+              </div>
+            </footer>
+             <style jsx global>{`
+              @keyframes scan-line {
+                  0% { transform: translateY(0%); }
+                  100% { transform: translateY(100%); }
+              }
+              .scan-line {
+                width: 100%;
+                height: 2px;
+                background: linear-gradient(to bottom, transparent, rgba(0, 255, 255, 0.5), transparent);
+                animation: scan-line 4s linear infinite;
+              }
+            `}</style>
+          </div>
         );
       case 'generate_report':
         return (
