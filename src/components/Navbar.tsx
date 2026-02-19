@@ -72,7 +72,6 @@ const Navbar = () => {
               </Avatar>
               <div className="hidden md:flex flex-col items-start">
                 <p className="text-sm font-semibold leading-none">Dr. Shivam Raj</p>
-                <p className="text-xs text-muted-foreground leading-none mt-1">Senior Radiologist</p>
               </div>
               <ChevronDown className="h-4 w-4 text-muted-foreground hidden md:block" />
             </Button>
@@ -85,7 +84,7 @@ const Navbar = () => {
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleSettingsNavigation} className="cursor-pointer">
                 <Settings className="mr-2 h-4 w-4" />
-                <span>Settings</span>
+                <span>My Profile</span>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
               <LogOut className="mr-2 h-4 w-4" />
