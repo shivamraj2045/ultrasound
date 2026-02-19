@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,12 +13,22 @@ import { useAppContext } from '@/hooks/use-app-context';
 const SettingsPage = () => {
     const { toast } = useToast();
     const { doctorName, setDoctorName } = useAppContext();
+    
+    // Local state for all form fields
+    const [localDoctorName, setLocalDoctorName] = useState(doctorName);
     const [clinicName, setClinicName] = useState('City Family Clinic');
     const [licenseNumber, setLicenseNumber] = useState('MED123456');
     const [address, setAddress] = useState('123 Medical Street, Health City, HC 123456');
 
+    useEffect(() => {
+        setLocalDoctorName(doctorName);
+    }, [doctorName]);
+
     const handleSave = () => {
-        // Here you would typically save the data to a backend
+        // Update global context only when "Save" is clicked
+        setDoctorName(localDoctorName);
+
+        // Here you would typically save all the data to a backend
         toast({
             title: "Settings Saved",
             description: "Your clinic information has been successfully updated.",
@@ -54,8 +64,8 @@ const SettingsPage = () => {
                             <Label htmlFor="doctorName">User Name</Label>
                             <Input 
                                 id="doctorName" 
-                                value={doctorName} 
-                                onChange={(e) => setDoctorName(e.target.value)} 
+                                value={localDoctorName} 
+                                onChange={(e) => setLocalDoctorName(e.target.value)} 
                                 placeholder="e.g. Dr. Shivam Raj"
                             />
                         </div>
