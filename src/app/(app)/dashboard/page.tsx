@@ -62,7 +62,7 @@ const DashboardPage = () => {
         toast({
             variant: "destructive",
             title: 'Connection Failed',
-            description: 'Please check our plugin properly or adjust the cable again.',
+            description: 'We’re having trouble connecting. Please check the plugin and cable, then give it another try',
         });
     }, 2000);
   };
