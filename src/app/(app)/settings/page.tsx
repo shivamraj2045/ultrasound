@@ -19,7 +19,7 @@ import { Textarea } from '@/components/ui/textarea';
 
 const SettingsPage = () => {
     const { toast } = useToast();
-    const [clinicName, setClinicName] = useState('Ultrasound Project');
+    const [clinicName, setClinicName] = useState('Ultrasound Probe');
     const [doctorName, setDoctorName] = useState('Dr. Shivam Raj');
     const [phone, setPhone] = useState('62990*****');
     const [address, setAddress] = useState('123 Demo St, Example City');

@@ -144,7 +144,7 @@ const ScansPage = () => {
                     </div>
                 </div>
                 <div className="text-right text-sm">
-                    <p className="font-bold">Ultrasound Project</p>
+                    <p className="font-bold">Ultrasound Probe</p>
                     <p className="text-muted-foreground">Dr. Shivam Raj</p>
                     <p className="text-muted-foreground">123 Demo St, Example City</p>
                 </div>

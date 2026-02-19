@@ -77,7 +77,7 @@ const Sidebar = ({ className, isSheet }: { className?: string; isSheet?: boolean
   const headerLink = (
     <Link href="/dashboard" onClick={handleHeaderClick} className="flex items-center gap-3 px-3 py-2 mb-6">
       <Logo />
-      <span className="text-xl font-bold text-primary">Ultrasound Project</span>
+      <span className="text-xl font-bold text-primary">Ultrasound Probe</span>
     </Link>
   );
 

@@ -3,28 +3,29 @@ import React from 'react';
 const Logo = ({ className }: { className?: string }) => (
   <svg
     className={className}
-    width="32"
-    height="32"
-    viewBox="0 0 32 32"
+    width="48"
+    height="48"
+    viewBox="0 0 48 48"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
-      d="M4 8C4 5.79086 5.79086 4 8 4H24C26.2091 4 28 5.79086 28 8V24C28 26.2091 26.2091 28 24 28H8C5.79086 28 4 26.2091 4 24V8Z"
-      fill="currentColor"
-      className="text-primary"
-    />
-    <path
-      d="M12 19L16 13L20 19"
-      stroke="white"
-      strokeWidth="2"
+      d="M24 6C14.0589 6 6 14.0589 6 24C6 33.9411 14.0589 42 24 42C33.9411 42 42 33.9411 42 24"
+      stroke="hsl(var(--primary))"
+      strokeWidth="4"
       strokeLinecap="round"
-      strokeLinejoin="round"
     />
     <path
-      d="M10 22C12.2533 20.44 14.7467 20.44 17 22L22 22"
-      stroke="white"
-      strokeWidth="2"
+      d="M24 6C33.9411 6 42 14.0589 42 24"
+      stroke="hsl(var(--chart-2))"
+      strokeOpacity="0.7"
+      strokeWidth="4"
+      strokeLinecap="round"
+    />
+    <path
+      d="M14 24H19L22 18L26 30L29 18L32 24H37"
+      stroke="hsl(var(--primary))"
+      strokeWidth="3"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
