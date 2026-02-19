@@ -274,22 +274,37 @@ const UltrasoundPage = () => {
                             <CardTitle>Scan Settings</CardTitle>
                             <CardDescription>Patient: {selectedPatient?.name}</CardDescription>
                         </CardHeader>
-                        <CardContent className="space-y-3">
+                        <CardContent className="space-y-4">
                             <Label>Scan Type</Label>
                             {bodyParts.map((part) => (
-                                <button key={part.name} onClick={() => handleSelectPart(part)} disabled={credits < part.credits} className={cn(
-                                    "w-full border rounded-lg p-3 text-left transition-colors hover:bg-accent hover:border-primary",
-                                    "flex items-center gap-4",
-                                    credits < part.credits && "opacity-50 cursor-not-allowed"
-                                )}>
-                                    <div className="p-2 bg-primary/10 rounded-md">
-                                        <part.icon className="w-6 h-6 text-primary flex-shrink-0" />
+                                <button
+                                    key={part.name}
+                                    onClick={() => handleSelectPart(part)}
+                                    disabled={credits < part.credits}
+                                    className={cn(
+                                        "w-full border bg-card rounded-xl p-4 text-left transition-all duration-300 group",
+                                        "flex items-center gap-4",
+                                        credits < part.credits
+                                            ? "opacity-60 cursor-not-allowed"
+                                            : "hover:border-primary hover:shadow-lg hover:-translate-y-1"
+                                    )}
+                                >
+                                    <div className={cn(
+                                        "p-3 rounded-lg bg-primary/10 transition-colors",
+                                        credits >= part.credits && "group-hover:bg-primary"
+                                        )}>
+                                        <part.icon className={cn(
+                                            "w-6 h-6 text-primary transition-colors",
+                                            credits >= part.credits && "group-hover:text-primary-foreground"
+                                        )} />
                                     </div>
                                     <div className="flex-1">
-                                        <p className="font-semibold">{part.name}</p>
-                                        <p className="text-xs text-muted-foreground">{part.description}</p>
+                                        <p className="font-bold text-card-foreground">{part.name}</p>
+                                        <p className="text-sm text-muted-foreground">{part.description}</p>
                                     </div>
-                                    <Badge variant="outline">{part.credits} credits</Badge>
+                                    <Badge variant={credits < part.credits ? "secondary" : "outline"} className="font-mono text-sm py-1 px-3">
+                                        {part.credits}
+                                    </Badge>
                                 </button>
                             ))}
                         </CardContent>
@@ -322,7 +337,7 @@ const UltrasoundPage = () => {
                                     src={scanImageUrl}
                                     alt="Live ultrasound scan"
                                     fill
-                                    className="object-cover"
+                                    className="object-cover opacity-90"
                                 />
                             )}
                         </main>
@@ -343,22 +358,35 @@ const UltrasoundPage = () => {
                             <CardTitle>Scan Settings</CardTitle>
                             <CardDescription>Scan in progress...</CardDescription>
                         </CardHeader>
-                        <CardContent className="space-y-3">
+                        <CardContent className="space-y-4">
                             <Label>Scan Type</Label>
                             {bodyParts.map((part) => (
-                                <div key={part.name} className={cn(
-                                    "w-full border rounded-lg p-3 text-left",
-                                    "flex items-center gap-4",
-                                    selectedPart?.name === part.name ? "border-primary ring-2 ring-primary bg-accent" : "opacity-60",
-                                )}>
-                                    <div className="p-2 bg-primary/10 rounded-md">
-                                        <part.icon className="w-6 h-6 text-primary flex-shrink-0" />
+                                <div
+                                    key={part.name}
+                                    className={cn(
+                                        "w-full border bg-card rounded-xl p-4 text-left transition-all duration-300",
+                                        "flex items-center gap-4",
+                                        selectedPart?.name === part.name
+                                            ? "border-primary ring-2 ring-primary/50 shadow-lg"
+                                            : "opacity-50"
+                                    )}
+                                >
+                                    <div className={cn(
+                                        "p-3 rounded-lg bg-primary/10 transition-colors",
+                                        selectedPart?.name === part.name && "bg-primary"
+                                        )}>
+                                        <part.icon className={cn(
+                                            "w-6 h-6 text-primary transition-colors",
+                                            selectedPart?.name === part.name && "text-primary-foreground"
+                                        )} />
                                     </div>
                                     <div className="flex-1">
-                                        <p className="font-semibold">{part.name}</p>
-                                        <p className="text-xs text-muted-foreground">{part.description}</p>
+                                        <p className="font-bold text-card-foreground">{part.name}</p>
+                                        <p className="text-sm text-muted-foreground">{part.description}</p>
                                     </div>
-                                    <Badge variant={selectedPart?.name === part.name ? "default" : "outline"}>{part.credits} credits</Badge>
+                                    <Badge variant={selectedPart?.name === part.name ? "default" : "secondary"} className="font-mono text-sm py-1 px-3">
+                                        {part.credits}
+                                    </Badge>
                                 </div>
                             ))}
                         </CardContent>
