@@ -1,6 +1,7 @@
 import type { Patient, Scan, Alert, Video, BodyPart } from '@/lib/types';
 import { Abdomen, Hand, Heart, Kidneys, PregnantWoman } from '@/components/icons/BodyParts';
 import type { ScanPathologyAnalysisOutput } from '@/ai/flows/scan-pathology-analysis';
+import { AlertTriangle, Clock, BatteryWarning, CreditCard } from 'lucide-react';
 
 const sampleReport: ScanPathologyAnalysisOutput = {
     pathologyAnalysis: "The scan shows evidence of moderate fatty infiltration in the liver (hepatic steatosis). The gallbladder wall appears slightly thickened, which may suggest chronic cholecystitis. No focal lesions or biliary duct dilation observed.",
@@ -17,8 +18,8 @@ export const patientsData: Patient[] = [
   { id: 'p001', name: 'Shivam Raj', age: 21, gender: 'Male', phone: '62990*****', address: '123 Demo St, Dehradun', totalScans: 2, lastScan: '2023-10-15' },
   { id: 'p002', name: 'Rohan Verma', age: 22, gender: 'Male', phone: '62990*****', address: '456 Sample Ave, Dehradun', totalScans: 1, lastScan: '2023-09-22' },
   { id: 'p003', name: 'Aditya Singh', age: 20, gender: 'Male', phone: '62990*****', address: '789 Test Rd, Dehradun', totalScans: 1, lastScan: '2023-11-01' },
-  { id: 'p004', name: 'Kabir Sharma', age: 21, gender: 'Male', phone: '62990*****', address: '101 Example Blvd, Dehradun', totalScans: 1, lastScan: '2023-08-10' },
-  { id: 'p005', name: 'Diya Mehta', age: 22, gender: 'Female', phone: '62990*****', address: '221B Baker Street, Dehradun', totalScans: 0, lastScan: null },
+  { id: 'p004', name: 'Anil Verma', age: 45, gender: 'Male', phone: '62990*****', address: '101 Example Blvd, Dehradun', totalScans: 3, lastScan: '2023-11-05' },
+  { id: 'p005', name: 'Priya Mehta', age: 28, gender: 'Female', phone: '62990*****', address: '221B Baker Street, Dehradun', totalScans: 1, lastScan: '2023-10-20' },
 ];
 
 export const scansData: Scan[] = [
@@ -26,14 +27,54 @@ export const scansData: Scan[] = [
   { id: 's002', patientId: 'p002', patientName: 'Rohan Verma', bodyPart: 'Kidney', date: '2023-09-22', creditsUsed: 5, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s002/800/600', report: {...sampleReport, pathologyAnalysis: "Both kidneys appear normal in size and echotexture. No evidence of hydronephrosis, cysts, or calculi. Corticomedullary differentiation is well-preserved."} },
   { id: 's003', patientId: 'p003', patientName: 'Aditya Singh', bodyPart: 'Abdomen', date: '2023-11-01', creditsUsed: 4, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s003/800/600', report: sampleReport },
   { id: 's004', patientId: 'p001', patientName: 'Shivam Raj', bodyPart: 'Kidney', date: '2023-07-05', creditsUsed: 5, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s004/800/600', report: {...sampleReport, pathologyAnalysis: "A simple 2cm cyst is noted in the upper pole of the left kidney. This is likely a benign finding. The right kidney is unremarkable."} },
-  { id: 's005', patientId: 'p004', patientName: 'Kabir Sharma', bodyPart: 'Right Hand', date: '2023-08-10', creditsUsed: 3, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s005/800/600', report: {...sampleReport, pathologyAnalysis: "No significant soft tissue or structural abnormalities detected in the scanned area of the right hand. No signs of inflammation or fluid collection."} },
+  { id: 's005', patientId: 'p004', patientName: 'Anil Verma', bodyPart: 'Cardiac', date: '2023-11-05', creditsUsed: 8, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s005/800/600', report: {...sampleReport, pathologyAnalysis: "Cardiac scan shows irregular pattern requiring immediate attention."} },
 ];
 
 export const alertsData: Alert[] = [
-  { id: 'a001', type: 'Medical', title: 'Abnormal Cardiac Scan', description: "Patient Shivam Raj's scan shows potential arrhythmia. Immediate review required.", timestamp: '2023-10-15T14:30:00Z', read: false },
-  { id: 'a002', type: 'Business', title: 'Low Credits', description: 'Your clinic has only 25 credits remaining. Please purchase more to avoid service interruption.', timestamp: '2023-11-02T09:00:00Z', read: false },
-  { id: 'a003', type: 'System', title: 'Device Battery Low', description: 'Handheld device battery is at 15%. Please charge soon.', timestamp: '2023-11-03T11:45:00Z', read: true },
-  { id: 'a004', type: 'Business', title: 'Subscription Expiring Soon', description: 'Your annual subscription will expire in 15 days.', timestamp: '2023-11-01T10:00:00Z', read: true },
+  { 
+    id: 'a001', 
+    type: 'Medical', 
+    priority: 'High',
+    icon: AlertTriangle,
+    title: 'Abnormal Reading Detected', 
+    description: "Cardiac scan for Patient Anil Verma shows irregular pattern requiring immediate attention.", 
+    timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), 
+    details: 'Patient: Anil Verma',
+    read: false 
+  },
+  { 
+    id: 'a002', 
+    type: 'System',
+    priority: 'Medium', 
+    icon: BatteryWarning,
+    title: 'Device Battery Low', 
+    description: 'Ultrasound device battery at 15%. Please recharge to avoid interruption during procedures.', 
+    timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
+    details: 'Device: UltrasoundPro X1',
+    read: false 
+  },
+  { 
+    id: 'a003',
+    type: 'Business',
+    priority: 'Low',
+    icon: CreditCard,
+    title: 'Credits Running Low', 
+    description: 'Only 42 credits remaining. Consider purchasing more credits to continue uninterrupted service.', 
+    timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+    details: 'Balance: 42 credits',
+    read: false 
+  },
+  { 
+    id: 'a004', 
+    type: 'Medical', 
+    priority: 'Medium',
+    icon: Clock,
+    title: 'Follow-up Required', 
+    description: 'Patient Priya Mehta needs follow-up scan for pregnancy monitoring. Schedule within next 2 weeks.', 
+    timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    details: 'Patient: Priya Mehta',
+    read: false 
+  },
 ];
 
 export const videosData: Video[] = [

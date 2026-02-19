@@ -26,9 +26,12 @@ export type Scan = {
 export type Alert = {
   id: string;
   type: 'Medical' | 'System' | 'Business';
+  priority: 'High' | 'Medium' | 'Low';
+  icon: React.ElementType;
   title: string;
   description: string;
   timestamp: string;
+  details: string;
   read: boolean;
 };
 
