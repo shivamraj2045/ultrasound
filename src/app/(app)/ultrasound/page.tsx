@@ -35,6 +35,7 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogFooter,
+  DialogDescription,
 } from '@/components/ui/dialog';
 import { Progress } from '@/components/ui/progress';
 import { Textarea } from '@/components/ui/textarea';
@@ -263,6 +264,9 @@ const UltrasoundPage = () => {
                   <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
                       <DialogTitle>Add New Patient</DialogTitle>
+                      <DialogDescription>
+                        Enter the new patient's details below. Click 'Save Patient' when done.
+                      </DialogDescription>
                     </DialogHeader>
                     <AddPatientForm onPatientAdded={handlePatientAdded} />
                   </DialogContent>
