@@ -46,4 +46,6 @@ export type BodyPart = {
   name: string;
   credits: number;
   icon: React.ComponentType<{ className?: string }>;
+  estimatedCost: number;
+  averageDuration: string;
 };

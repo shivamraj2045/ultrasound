@@ -48,16 +48,16 @@ export const videosData: Video[] = [
 ];
 
 export const bodyParts: BodyPart[] = [
-    { name: 'Abdomen', credits: 4, icon: Abdomen },
-    { name: 'Kidney', credits: 5, icon: Kidneys },
-    { name: 'Left Hand', credits: 3, icon: Hand },
-    { name: 'Right Hand', credits: 3, icon: Hand },
-    { name: 'Pregnancy', credits: 6, icon: PregnantWoman },
-    { name: 'Cardiac', credits: 8, icon: Heart },
+    { name: 'Abdomen', credits: 4, icon: Abdomen, estimatedCost: 40, averageDuration: '15-20 mins' },
+    { name: 'Kidney', credits: 5, icon: Kidneys, estimatedCost: 50, averageDuration: '15-25 mins' },
+    { name: 'Left Hand', credits: 3, icon: Hand, estimatedCost: 30, averageDuration: '10-15 mins' },
+    { name: 'Right Hand', credits: 3, icon: Hand, estimatedCost: 30, averageDuration: '10-15 mins' },
+    { name: 'Pregnancy', credits: 6, icon: PregnantWoman, estimatedCost: 60, averageDuration: '25-30 mins' },
+    { name: 'Cardiac', credits: 8, icon: Heart, estimatedCost: 80, averageDuration: '30-40 mins' },
 ];
 
 export const creditPackages = [
-  { credits: 100, price: 1000, bestValue: false },
-  { credits: 300, price: 2500, bestValue: true },
-  { credits: 1000, price: 7000, bestValue: false },
+  { name: 'Starter', credits: 100, price: 1000, bestValue: false, description: '10 credits per ₹100' },
+  { name: 'Professional', credits: 300, price: 2500, bestValue: true, description: 'Best value - 17% savings' },
+  { name: 'Enterprise', credits: 1000, price: 7000, bestValue: false, description: 'Bulk discount - 30% savings' },
 ];
