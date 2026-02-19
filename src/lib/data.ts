@@ -22,11 +22,11 @@ export const patientsData: Patient[] = [
 ];
 
 export const scansData: Scan[] = [
-  { id: 's001', patientId: 'p001', patientName: 'Aman Bhardwaj', bodyPart: 'Cardiac', date: '2023-10-15', creditsUsed: 8, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s001/800/600', report: sampleReport },
-  { id: 's002', patientId: 'p002', patientName: 'Ankit Raj', bodyPart: 'Kidney', date: '2023-09-22', creditsUsed: 5, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s002/800/600', report: {...sampleReport, pathologyAnalysis: "Both kidneys appear normal in size and echotexture. No evidence of hydronephrosis, cysts, or calculi. Corticomedullary differentiation is well-preserved."} },
-  { id: 's003', patientId: 'p003', patientName: 'Shivam Kumar', bodyPart: 'Abdomen', date: '2023-11-01', creditsUsed: 4, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s003/800/600', report: sampleReport },
-  { id: 's004', patientId: 'p001', patientName: 'Aman Bhardwaj', bodyPart: 'Kidney', date: '2023-07-05', creditsUsed: 5, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s004/800/600', report: {...sampleReport, pathologyAnalysis: "A simple 2cm cyst is noted in the upper pole of the left kidney. This is likely a benign finding. The right kidney is unremarkable."} },
-  { id: 's005', patientId: 'p004', patientName: 'Shivam Raj', bodyPart: 'Cardiac', date: '2023-11-05', creditsUsed: 8, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s005/800/600', report: {...sampleReport, pathologyAnalysis: "Cardiac scan shows irregular pattern requiring immediate attention."} },
+  { id: 's001', patientId: 'p001', patientName: 'Aman Bhardwaj', bodyPart: 'Kidney', date: '2024-02-15T14:30:00.000Z', creditsUsed: 5, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s001/800/600', report: sampleReport },
+  { id: 's002', patientId: 'p002', patientName: 'Ankit Raj', bodyPart: 'Pregnancy', date: '2024-02-10T11:15:00.000Z', creditsUsed: 6, status: 'Flagged', imageUrl: 'https://picsum.photos/seed/s002/800/600', report: {...sampleReport, pathologyAnalysis: "Growth metrics are within the expected range for gestational age. Amniotic fluid index is normal."} },
+  { id: 's003', patientId: 'p003', patientName: 'Shivam Kumar', bodyPart: 'Cardiac', date: '2024-02-08T09:45:00.000Z', creditsUsed: 8, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s003/800/600', report: sampleReport },
+  { id: 's004', patientId: 'p004', patientName: 'Shivam Raj', bodyPart: 'Abdomen', date: '2024-02-05T16:20:00.000Z', creditsUsed: 4, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s004/800/600', report: {...sampleReport, pathologyAnalysis: "A simple 2cm cyst is noted in the upper pole of the left kidney. This is likely a benign finding. The right kidney is unremarkable."} },
+  { id: 's005', patientId: 'p001', patientName: 'Aman Bhardwaj', bodyPart: 'Cardiac', date: '2023-11-05T10:00:00.000Z', creditsUsed: 8, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s005/800/600', report: {...sampleReport, pathologyAnalysis: "Cardiac scan shows irregular pattern requiring immediate attention."} },
 ];
 
 export const alertsData: Alert[] = [

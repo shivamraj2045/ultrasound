@@ -18,7 +18,7 @@ export type Scan = {
   bodyPart: string;
   date: string;
   creditsUsed: number;
-  status: 'Completed' | 'Pending' | 'Failed';
+  status: 'Completed' | 'Pending' | 'Failed' | 'Flagged';
   imageUrl: string;
   report?: ScanPathologyAnalysisOutput;
 };
