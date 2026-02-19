@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { Coins, UserCircle, Menu, LogOut, Settings } from 'lucide-react';
+import { Coins, Menu, LogOut, Settings, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -19,6 +19,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Sidebar from './Sidebar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 const Navbar = () => {
   const { credits, setIsLoading } = useAppContext();
@@ -63,13 +64,24 @@ const Navbar = () => {
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <UserCircle className="h-6 w-6" />
-              <span className="sr-only">Toggle user menu</span>
+            <Button variant="ghost" className="flex items-center gap-2 rounded-full px-2 py-1.5 h-auto">
+              <Avatar className="h-8 w-8">
+                <AvatarFallback className="bg-primary text-primary-foreground font-bold text-sm">
+                  SR
+                </AvatarFallback>
+              </Avatar>
+              <div className="hidden md:flex flex-col items-start">
+                <p className="text-sm font-semibold leading-none">Dr. Shivam Raj</p>
+                <p className="text-xs text-muted-foreground leading-none mt-1">Senior Radiologist</p>
+              </div>
+              <ChevronDown className="h-4 w-4 text-muted-foreground hidden md:block" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuContent align="end" className="w-56">
+            <DropdownMenuLabel>
+                <p className="font-semibold">Dr. Shivam Raj</p>
+                <p className="text-xs text-muted-foreground font-normal">shivam.raj@example.com</p>
+            </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleSettingsNavigation} className="cursor-pointer">
                 <Settings className="mr-2 h-4 w-4" />
