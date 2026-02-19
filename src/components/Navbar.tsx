@@ -22,7 +22,7 @@ import Sidebar from './Sidebar';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 const Navbar = () => {
-  const { credits, setIsLoading, doctorName } = useAppContext();
+  const { credits, setIsLoading, doctorName, email } = useAppContext();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -88,7 +88,7 @@ const Navbar = () => {
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuLabel>
                 <p className="font-semibold">{doctorName}</p>
-                <p className="text-xs text-muted-foreground font-normal">shivam.raj@example.com</p>
+                <p className="text-xs text-muted-foreground font-normal">{email}</p>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleSettingsNavigation} className="cursor-pointer">
