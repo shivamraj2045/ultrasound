@@ -22,7 +22,7 @@ import Sidebar from './Sidebar';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 const Navbar = () => {
-  const { credits, setIsLoading } = useAppContext();
+  const { credits, setIsLoading, doctorName } = useAppContext();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -37,6 +37,15 @@ const Navbar = () => {
         setIsLoading(true);
     }
     router.push('/settings');
+  }
+
+  const getInitials = (name: string) => {
+    if (!name) return '';
+    const nameParts = name.split(' ');
+    if (nameParts.length > 1) {
+        return (nameParts[0][0] + nameParts[nameParts.length - 1][0]).toUpperCase();
+    }
+    return name.substring(0, 2).toUpperCase();
   }
 
   return (
@@ -67,18 +76,18 @@ const Navbar = () => {
             <Button variant="ghost" className="flex items-center gap-2 rounded-full px-2 py-1.5 h-auto">
               <Avatar className="h-8 w-8">
                 <AvatarFallback className="bg-primary text-primary-foreground font-bold text-sm">
-                  SR
+                  {getInitials(doctorName)}
                 </AvatarFallback>
               </Avatar>
               <div className="hidden md:flex flex-col items-start">
-                <p className="text-sm font-semibold leading-none">Dr. Shivam Raj</p>
+                <p className="text-sm font-semibold leading-none">{doctorName}</p>
               </div>
               <ChevronDown className="h-4 w-4 text-muted-foreground hidden md:block" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuLabel>
-                <p className="font-semibold">Dr. Shivam Raj</p>
+                <p className="font-semibold">{doctorName}</p>
                 <p className="text-xs text-muted-foreground font-normal">shivam.raj@example.com</p>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />

@@ -18,6 +18,8 @@ interface AppContextType {
   findPatientById: (id: string) => Patient | undefined;
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  doctorName: string;
+  setDoctorName: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -28,6 +30,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [credits, setCredits] = useState<number>(150);
   const [subscriptionStatus, setSubscriptionStatus] = useState<'Active' | 'Inactive' | 'Expiring Soon'>('Active');
   const [isLoading, setIsLoading] = useState(false);
+  const [doctorName, setDoctorName] = useState<string>('Dr. Shivam Raj');
 
   const addPatient = useCallback((patientData: Omit<Patient, 'id' | 'totalScans' | 'lastScan'>): Patient => {
     const newPatient: Patient = {
@@ -77,7 +80,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
     findPatientById,
     isLoading,
     setIsLoading,
-  }), [patients, scans, credits, subscriptionStatus, isLoading, addPatient, addScan, findPatientById]);
+    doctorName,
+    setDoctorName,
+  }), [patients, scans, credits, subscriptionStatus, isLoading, addPatient, addScan, findPatientById, doctorName, setDoctorName]);
 
   return (
     <AppContext.Provider value={contextValue}>

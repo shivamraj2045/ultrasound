@@ -8,11 +8,12 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Save, Hospital } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
+import { useAppContext } from '@/hooks/use-app-context';
 
 const SettingsPage = () => {
     const { toast } = useToast();
+    const { doctorName, setDoctorName } = useAppContext();
     const [clinicName, setClinicName] = useState('City Family Clinic');
-    const [doctorName, setDoctorName] = useState('Dr. Rajesh Sharma');
     const [licenseNumber, setLicenseNumber] = useState('MED123456');
     const [address, setAddress] = useState('123 Medical Street, Health City, HC 123456');
 
@@ -50,12 +51,12 @@ const SettingsPage = () => {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-2">
-                            <Label htmlFor="doctorName">Doctor Name</Label>
+                            <Label htmlFor="doctorName">User Name</Label>
                             <Input 
                                 id="doctorName" 
                                 value={doctorName} 
                                 onChange={(e) => setDoctorName(e.target.value)} 
-                                placeholder="e.g. Dr. Rajesh Sharma"
+                                placeholder="e.g. Dr. Shivam Raj"
                             />
                         </div>
                         <div className="space-y-2">
