@@ -301,9 +301,17 @@ const UltrasoundPage = () => {
             </header>
       
             <main className="relative h-[450px] md:h-[500px] bg-slate-900 overflow-hidden">
+              {scanImageUrl && (
+                  <Image
+                      src={scanImageUrl}
+                      alt="Live ultrasound scan"
+                      fill
+                      className="object-cover opacity-70"
+                  />
+              )}
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center text-slate-600">
-                  <p className="text-2xl font-light tracking-widest">ULTRASOUND LIVE FEED</p>
+                <div className="text-center text-slate-400/50">
+                  <p className="text-2xl font-light tracking-widest opacity-50">ULTRASOUND LIVE FEED</p>
                   <div className="absolute inset-0">
                     <div className="absolute top-1/2 left-0 w-full h-px bg-cyan-400/10"></div>
                     <div className="absolute left-1/2 top-0 h-full w-px bg-cyan-400/10"></div>
@@ -499,5 +507,3 @@ const UltrasoundPage = () => {
 };
 
 export default UltrasoundPage;
-
-    
