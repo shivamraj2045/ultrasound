@@ -24,7 +24,7 @@ import {
 import { useAppContext } from '@/hooks/use-app-context';
 import { creditPackages, bodyParts } from '@/lib/data';
 import { cn } from '@/lib/utils';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -41,6 +41,7 @@ type CreditPackage = typeof creditPackages[number];
 const SubscriptionPage = () => {
     const { credits } = useAppContext();
     const [selectedPackage, setSelectedPackage] = useState<CreditPackage | null>(null);
+    const [selectedTab, setSelectedTab] = useState('credit-card');
     const qrCodePlaceholder = PlaceHolderImages.find(p => p.id === 'qr-code');
     const totalCredits = 1000; // Assuming a total for progress calculation
     const creditPercentage = (credits / totalCredits) * 100;
@@ -142,7 +143,12 @@ const SubscriptionPage = () => {
                 </div>
             </div>
 
-            <Dialog open={!!selectedPackage} onOpenChange={(isOpen) => !isOpen && setSelectedPackage(null)}>
+            <Dialog open={!!selectedPackage} onOpenChange={(isOpen) => {
+                if (!isOpen) {
+                    setSelectedPackage(null);
+                    setSelectedTab('credit-card');
+                }
+            }}>
                 <DialogContent className="sm:max-w-md">
                     <DialogHeader>
                         <DialogTitle>Complete Your Purchase</DialogTitle>
@@ -152,7 +158,7 @@ const SubscriptionPage = () => {
                             </DialogDescription>
                         )}
                     </DialogHeader>
-                    <Tabs defaultValue="credit-card" className="w-full">
+                    <Tabs defaultValue="credit-card" className="w-full" value={selectedTab} onValueChange={setSelectedTab}>
                         <TabsList className="grid w-full grid-cols-3">
                             <TabsTrigger value="credit-card"><CreditCard className="mr-2 h-4 w-4" />Card</TabsTrigger>
                             <TabsTrigger value="upi"><Landmark className="mr-2 h-4 w-4" />UPI</TabsTrigger>
@@ -174,7 +180,6 @@ const SubscriptionPage = () => {
                                         <Input id="cvc" placeholder="123" />
                                     </div>
                                 </div>
-                                <Button className="w-full">Pay ₹{selectedPackage?.price.toLocaleString('en-IN')}</Button>
                             </div>
                         </TabsContent>
                         <TabsContent value="upi" className="pt-4">
@@ -183,7 +188,6 @@ const SubscriptionPage = () => {
                                     <Label htmlFor="upi-id">UPI ID</Label>
                                     <Input id="upi-id" placeholder="yourname@bank" />
                                 </div>
-                                <Button className="w-full">Pay ₹{selectedPackage?.price.toLocaleString('en-IN')}</Button>
                             </div>
                         </TabsContent>
                         <TabsContent value="qr" className="pt-4 flex flex-col items-center gap-4">
@@ -200,6 +204,11 @@ const SubscriptionPage = () => {
                             )}
                         </TabsContent>
                     </Tabs>
+                    <DialogFooter>
+                        {selectedTab !== 'qr' && (
+                            <Button className="w-full">Pay ₹{selectedPackage?.price.toLocaleString('en-IN')}</Button>
+                        )}
+                    </DialogFooter>
                 </DialogContent>
             </Dialog>
         </>
