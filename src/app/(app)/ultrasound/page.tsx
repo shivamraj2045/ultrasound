@@ -300,7 +300,7 @@ const UltrasoundPage = () => {
               </Badge>
             </header>
       
-            <main className="relative h-[450px] md:h-[500px] bg-slate-900">
+            <main className="relative h-[450px] md:h-[500px] bg-slate-900 overflow-hidden">
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center text-slate-600">
                   <p className="text-2xl font-light tracking-widest">ULTRASOUND LIVE FEED</p>
@@ -311,9 +311,7 @@ const UltrasoundPage = () => {
                 </div>
               </div>
               
-              <div className="absolute top-0 left-0 right-0 h-full overflow-hidden">
-                <div className="absolute top-0 left-0 right-0 h-0.5 bg-cyan-400 shadow-[0_0_10px_#00ffff,0_0_20px_#00ffff] scan-line"></div>
-              </div>
+              <div className="scan-line"></div>
       
               <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-sm rounded-md p-1 flex items-center gap-1 border border-slate-700">
                   <Button variant="ghost" size="icon" className="text-white h-8 w-8 hover:bg-white/10"><Pause className="h-4 w-4" /></Button>
@@ -326,7 +324,7 @@ const UltrasoundPage = () => {
             <footer className="p-4 bg-slate-900/50 flex justify-end items-center">
               <div className="flex items-center gap-4">
                 <Button onClick={() => setStep('generate_report')} size="lg">
-                  Start Scan
+                  Capture Image
                 </Button>
                 <div className="font-mono text-lg bg-black/50 px-4 py-2 rounded-md">
                   00:00
@@ -334,15 +332,18 @@ const UltrasoundPage = () => {
               </div>
             </footer>
              <style jsx global>{`
-              @keyframes scan-line {
-                  0% { transform: translateY(0%); }
-                  100% { transform: translateY(100%); }
+              @keyframes scan-line-anim {
+                  0% { top: 0; }
+                  100% { top: 100%; }
               }
               .scan-line {
-                width: 100%;
+                position: absolute;
+                left: 0;
+                right: 0;
                 height: 2px;
                 background: linear-gradient(to bottom, transparent, rgba(0, 255, 255, 0.5), transparent);
-                animation: scan-line 4s linear infinite;
+                box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+                animation: scan-line-anim 4s linear infinite;
               }
             `}</style>
           </div>
