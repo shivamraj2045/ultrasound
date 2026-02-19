@@ -42,9 +42,9 @@ function AppLayoutContent({
   }
 
   return (
-      <div className="flex min-h-screen w-full bg-background">
+      <div className="flex h-screen w-full bg-background">
         <Sidebar className="hidden md:flex w-64" />
-        <div className="flex flex-1 flex-col">
+        <div className="flex flex-1 flex-col overflow-hidden">
           <Navbar />
           <main className="flex-1 p-4 md:p-6 lg:p-8 relative overflow-y-auto">
             {isLoading && (
