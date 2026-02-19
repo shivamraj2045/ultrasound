@@ -15,18 +15,18 @@ const sampleReport: ScanPathologyAnalysisOutput = {
 };
 
 export const patientsData: Patient[] = [
-  { id: 'p001', name: 'Shivam Raj', age: 21, gender: 'Male', phone: '62990*****', address: '123 Demo St, Dehradun', totalScans: 2, lastScan: '2023-10-15' },
-  { id: 'p002', name: 'Rohan Verma', age: 22, gender: 'Male', phone: '62990*****', address: '456 Sample Ave, Dehradun', totalScans: 1, lastScan: '2023-09-22' },
-  { id: 'p003', name: 'Aditya Singh', age: 20, gender: 'Male', phone: '62990*****', address: '789 Test Rd, Dehradun', totalScans: 1, lastScan: '2023-11-01' },
-  { id: 'p004', name: 'Anil Verma', age: 45, gender: 'Male', phone: '62990*****', address: '101 Example Blvd, Dehradun', totalScans: 3, lastScan: '2023-11-05' },
-  { id: 'p005', name: 'Priya Mehta', age: 28, gender: 'Female', phone: '62990*****', address: '221B Baker Street, Dehradun', totalScans: 1, lastScan: '2023-10-20' },
+  { id: 'p001', name: 'Aman Bhardwaj', age: 19, gender: 'Male', phone: '+91*********', address: 'Shivalik college of engineering', totalScans: 2, lastScan: '2023-10-15' },
+  { id: 'p002', name: 'Ankit Raj', age: 20, gender: 'Male', phone: '+91*********', address: 'Shivalik college of engineering', totalScans: 1, lastScan: '2023-09-22' },
+  { id: 'p003', name: 'Shivam Kumar', age: 21, gender: 'Male', phone: '+91*********', address: 'Shivalik college of engineering', totalScans: 1, lastScan: '2023-11-01' },
+  { id: 'p004', name: 'Anil Verma', age: 20, gender: 'Male', phone: '+91*********', address: 'Shivalik college of engineering', totalScans: 3, lastScan: '2023-11-05' },
+  { id: 'p005', name: 'Priya Mehta', age: 21, gender: 'Female', phone: '+91*********', address: 'Shivalik college of engineering', totalScans: 1, lastScan: '2023-10-20' },
 ];
 
 export const scansData: Scan[] = [
-  { id: 's001', patientId: 'p001', patientName: 'Shivam Raj', bodyPart: 'Cardiac', date: '2023-10-15', creditsUsed: 8, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s001/800/600', report: sampleReport },
-  { id: 's002', patientId: 'p002', patientName: 'Rohan Verma', bodyPart: 'Kidney', date: '2023-09-22', creditsUsed: 5, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s002/800/600', report: {...sampleReport, pathologyAnalysis: "Both kidneys appear normal in size and echotexture. No evidence of hydronephrosis, cysts, or calculi. Corticomedullary differentiation is well-preserved."} },
-  { id: 's003', patientId: 'p003', patientName: 'Aditya Singh', bodyPart: 'Abdomen', date: '2023-11-01', creditsUsed: 4, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s003/800/600', report: sampleReport },
-  { id: 's004', patientId: 'p001', patientName: 'Shivam Raj', bodyPart: 'Kidney', date: '2023-07-05', creditsUsed: 5, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s004/800/600', report: {...sampleReport, pathologyAnalysis: "A simple 2cm cyst is noted in the upper pole of the left kidney. This is likely a benign finding. The right kidney is unremarkable."} },
+  { id: 's001', patientId: 'p001', patientName: 'Aman Bhardwaj', bodyPart: 'Cardiac', date: '2023-10-15', creditsUsed: 8, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s001/800/600', report: sampleReport },
+  { id: 's002', patientId: 'p002', patientName: 'Ankit Raj', bodyPart: 'Kidney', date: '2023-09-22', creditsUsed: 5, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s002/800/600', report: {...sampleReport, pathologyAnalysis: "Both kidneys appear normal in size and echotexture. No evidence of hydronephrosis, cysts, or calculi. Corticomedullary differentiation is well-preserved."} },
+  { id: 's003', patientId: 'p003', patientName: 'Shivam Kumar', bodyPart: 'Abdomen', date: '2023-11-01', creditsUsed: 4, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s003/800/600', report: sampleReport },
+  { id: 's004', patientId: 'p001', patientName: 'Aman Bhardwaj', bodyPart: 'Kidney', date: '2023-07-05', creditsUsed: 5, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s004/800/600', report: {...sampleReport, pathologyAnalysis: "A simple 2cm cyst is noted in the upper pole of the left kidney. This is likely a benign finding. The right kidney is unremarkable."} },
   { id: 's005', patientId: 'p004', patientName: 'Anil Verma', bodyPart: 'Cardiac', date: '2023-11-05', creditsUsed: 8, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s005/800/600', report: {...sampleReport, pathologyAnalysis: "Cardiac scan shows irregular pattern requiring immediate attention."} },
 ];
 
