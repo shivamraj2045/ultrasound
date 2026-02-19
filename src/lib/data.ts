@@ -77,12 +77,12 @@ export const videosData: Video[] = [
 ];
 
 export const bodyParts: BodyPart[] = [
-    { name: 'Abdomen', credits: 4, icon: Abdomen, estimatedCost: 40, averageDuration: '15-20 mins' },
-    { name: 'Kidney', credits: 5, icon: Kidneys, estimatedCost: 50, averageDuration: '15-25 mins' },
-    { name: 'Left Hand', credits: 3, icon: Hand, estimatedCost: 30, averageDuration: '10-15 mins' },
-    { name: 'Right Hand', credits: 3, icon: Hand, estimatedCost: 30, averageDuration: '10-15 mins' },
-    { name: 'Pregnancy', credits: 6, icon: PregnantWoman, estimatedCost: 60, averageDuration: '25-30 mins' },
-    { name: 'Cardiac', credits: 8, icon: Heart, estimatedCost: 80, averageDuration: '30-40 mins' },
+    { name: 'Abdomen', description: 'Abdominal organ examination', credits: 4, icon: Abdomen, estimatedCost: 40, averageDuration: '15-20 mins' },
+    { name: 'Kidney', description: 'Renal ultrasound', credits: 5, icon: Kidneys, estimatedCost: 50, averageDuration: '15-25 mins' },
+    { name: 'Left Hand', description: 'Hand & wrist examination', credits: 3, icon: Hand, estimatedCost: 30, averageDuration: '10-15 mins' },
+    { name: 'Right Hand', description: 'Hand & wrist examination', credits: 3, icon: Hand, estimatedCost: 30, averageDuration: '10-15 mins' },
+    { name: 'Pregnancy', description: 'Obstetric ultrasound', credits: 6, icon: PregnantWoman, estimatedCost: 60, averageDuration: '25-30 mins' },
+    { name: 'Cardiac', description: 'Echocardiogram', credits: 8, icon: Heart, estimatedCost: 80, averageDuration: '30-40 mins' },
 ];
 
 export const creditPackages = [

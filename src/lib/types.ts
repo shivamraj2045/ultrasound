@@ -47,6 +47,7 @@ export type Video = {
 
 export type BodyPart = {
   name: string;
+  description: string;
   credits: number;
   icon: React.ComponentType<{ className?: string }>;
   estimatedCost: number;

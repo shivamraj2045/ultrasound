@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, useEffect, useTransition } from 'react';
+import React, { useState, useMemo, useTransition } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import {
@@ -37,7 +37,6 @@ import {
   DialogFooter,
   DialogDescription,
 } from '@/components/ui/dialog';
-import { Progress } from '@/components/ui/progress';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -47,7 +46,7 @@ import type { Patient, BodyPart as BodyPartType } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { generatePathologyReport } from '@/actions/ultrasound';
-import { Loader2, Sparkles, FileText, CheckCircle, PlusCircle, Pause, Pen, Settings, Circle } from 'lucide-react';
+import { Loader2, Sparkles, CheckCircle, PlusCircle, Waves } from 'lucide-react';
 import { ScanPathologyAnalysisOutput } from '@/ai/flows/scan-pathology-analysis';
 import Logo from '@/components/icons/Logo';
 import { Badge } from '@/components/ui/badge';
@@ -177,6 +176,7 @@ const UltrasoundPage = () => {
       creditsUsed: selectedPart.credits,
       status: 'Completed',
       imageUrl: imageUrl,
+      report: undefined,
     });
     setStep('scanning');
     toast({
@@ -220,7 +220,7 @@ const UltrasoundPage = () => {
     switch (step) {
       case 'select_patient':
         return (
-          <Card className="w-full max-w-md">
+          <Card className="w-full max-w-md mx-auto">
             <CardHeader>
               <CardTitle>Step 1: Select Patient</CardTitle>
               <CardDescription>Choose an existing patient or add a new one to begin the scan.</CardDescription>
@@ -258,74 +258,117 @@ const UltrasoundPage = () => {
         );
       case 'select_part':
         return (
-          <Card className="w-full max-w-2xl">
-            <CardHeader>
-              <CardTitle>Step 2: Select Body Part</CardTitle>
-              <CardDescription>Patient: <span className="font-semibold">{selectedPatient?.name}</span>. Choose the body part to scan.</CardDescription>
-            </CardHeader>
-            <CardContent className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {bodyParts.map((part) => (
-                <button
-                  key={part.name}
-                  onClick={() => handleSelectPart(part)}
-                  className={cn(
-                    "p-4 border rounded-lg text-center hover:bg-accent transition-colors flex flex-col items-center gap-2",
-                    credits < part.credits && "opacity-50 cursor-not-allowed"
-                  )}
-                  disabled={credits < part.credits}
-                >
-                  <part.icon className="w-8 h-8 text-primary"/>
-                  <span className="font-semibold">{part.name}</span>
-                  <span className="text-sm text-muted-foreground">{part.credits} credits</span>
-                </button>
-              ))}
-            </CardContent>
-            <CardFooter>
-                <Button variant="outline" onClick={() => setStep('select_patient')}>Back</Button>
-            </CardFooter>
-          </Card>
+            <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                <div className="lg:col-span-2">
+                    <Card className="aspect-video bg-slate-800 border-slate-700 flex items-center justify-center">
+                        <div className="text-center text-slate-400">
+                            <Waves className="mx-auto h-16 w-16" />
+                            <h3 className="mt-4 text-lg font-semibold">Live Scan Preview</h3>
+                            <p className="mt-1 text-sm">Select a scan type to begin.</p>
+                        </div>
+                    </Card>
+                </div>
+                <div className="lg:col-span-1">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Scan Settings</CardTitle>
+                            <CardDescription>Patient: {selectedPatient?.name}</CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-3">
+                            <Label>Scan Type</Label>
+                            {bodyParts.map((part) => (
+                                <button key={part.name} onClick={() => handleSelectPart(part)} disabled={credits < part.credits} className={cn(
+                                    "w-full border rounded-lg p-3 text-left transition-colors hover:bg-accent hover:border-primary",
+                                    "flex items-center gap-4",
+                                    credits < part.credits && "opacity-50 cursor-not-allowed"
+                                )}>
+                                    <div className="p-2 bg-primary/10 rounded-md">
+                                        <part.icon className="w-6 h-6 text-primary flex-shrink-0" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <p className="font-semibold">{part.name}</p>
+                                        <p className="text-xs text-muted-foreground">{part.description}</p>
+                                    </div>
+                                    <Badge variant="outline">{part.credits} credits</Badge>
+                                </button>
+                            ))}
+                        </CardContent>
+                        <CardFooter>
+                            <Button variant="outline" onClick={() => setStep('select_patient')}>Back</Button>
+                        </CardFooter>
+                    </Card>
+                </div>
+            </div>
         );
       case 'scanning':
         return (
-          <div className="w-full max-w-5xl mx-auto bg-[#1e293b] text-slate-100 rounded-lg shadow-2xl overflow-hidden border border-slate-700">
-            <header className="p-4 flex justify-between items-center bg-slate-900/50">
-              <div className="flex items-center gap-3">
-                <Logo className="h-7 w-7" />
-                <h2 className="text-xl font-semibold">Live Scan Preview</h2>
-              </div>
-              <Badge variant="outline" className="text-green-400 border-green-400/50 bg-green-900/30">
-                <span className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-ping absolute opacity-75"></span>
-                <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                Device Active
-              </Badge>
-            </header>
-      
-            <main className="relative h-[450px] md:h-[500px] bg-slate-900 overflow-hidden">
-              {scanImageUrl && (
-                  <Image
-                      src={scanImageUrl}
-                      alt="Live ultrasound scan"
-                      fill
-                      className="object-cover"
-                  />
-              )}
-            </main>
-      
-            <footer className="p-4 bg-slate-900/50 flex justify-end items-center">
-              <div className="flex items-center gap-4">
-                <Button onClick={() => setStep('generate_report')} size="lg">
-                  Capture Image
-                </Button>
-                <div className="font-mono text-lg bg-black/50 px-4 py-2 rounded-md">
-                  00:00
+            <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                <div className="lg:col-span-2">
+                    <div className="w-full bg-[#1e293b] text-slate-100 rounded-lg shadow-2xl overflow-hidden border border-slate-700">
+                        <header className="p-4 flex justify-between items-center bg-slate-900/50">
+                            <div className="flex items-center gap-3">
+                                <Waves className="h-7 w-7 text-primary" />
+                                <h2 className="text-xl font-semibold">Live Scan Preview</h2>
+                            </div>
+                            <Badge variant="outline" className="text-green-400 border-green-400/50 bg-green-900/30">
+                                <span className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-ping absolute opacity-75"></span>
+                                <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
+                                Device Active
+                            </Badge>
+                        </header>
+                        <main className="relative aspect-video bg-slate-900 overflow-hidden">
+                            {scanImageUrl && (
+                                <Image
+                                    src={scanImageUrl}
+                                    alt="Live ultrasound scan"
+                                    fill
+                                    className="object-cover"
+                                />
+                            )}
+                        </main>
+                        <footer className="p-4 bg-slate-900/50 flex justify-between items-center">
+                            <div className="text-sm text-slate-300">
+                                <p className="font-semibold">Patient: {selectedPatient?.name}</p>
+                                <p className="text-xs text-slate-400">Scan Type: {selectedPart?.name}</p>
+                            </div>
+                            <Button onClick={() => setStep('generate_report')} size="lg">
+                                Capture Image
+                            </Button>
+                        </footer>
+                    </div>
                 </div>
-              </div>
-            </footer>
-          </div>
+                <div className="lg:col-span-1">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Scan Settings</CardTitle>
+                            <CardDescription>Scan in progress...</CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-3">
+                            <Label>Scan Type</Label>
+                            {bodyParts.map((part) => (
+                                <div key={part.name} className={cn(
+                                    "w-full border rounded-lg p-3 text-left",
+                                    "flex items-center gap-4",
+                                    selectedPart?.name === part.name ? "border-primary ring-2 ring-primary bg-accent" : "opacity-60",
+                                )}>
+                                    <div className="p-2 bg-primary/10 rounded-md">
+                                        <part.icon className="w-6 h-6 text-primary flex-shrink-0" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <p className="font-semibold">{part.name}</p>
+                                        <p className="text-xs text-muted-foreground">{part.description}</p>
+                                    </div>
+                                    <Badge variant={selectedPart?.name === part.name ? "default" : "outline"}>{part.credits} credits</Badge>
+                                </div>
+                            ))}
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
         );
       case 'generate_report':
         return (
-            <Card className="w-full max-w-xl">
+            <Card className="w-full max-w-xl mx-auto">
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2"><Sparkles className="text-primary w-6 h-6" /> AI-Powered Report Generation</CardTitle>
                     <CardDescription>The scan is complete. Please add your observations to generate an AI-powered pathology analysis.</CardDescription>
@@ -352,7 +395,7 @@ const UltrasoundPage = () => {
         );
       case 'view_report':
         return(
-            <Card className="w-full max-w-4xl">
+            <Card className="w-full max-w-4xl mx-auto">
               <div className="bg-white p-8 text-black rounded-t-lg">
                 <header className="flex justify-between items-start mb-8">
                     <div className="flex items-center gap-4">
@@ -451,9 +494,11 @@ const UltrasoundPage = () => {
   };
 
   return (
-    <div className="flex flex-col gap-4 items-center justify-center flex-1">
-        <h1 className="text-3xl font-bold tracking-tight self-start mb-4">New Ultrasound Scan</h1>
-        {renderStep()}
+    <div className="flex flex-col gap-8">
+        <h1 className="text-3xl font-bold tracking-tight">New Ultrasound Scan</h1>
+        <div className="flex flex-col items-center justify-center flex-1">
+          {renderStep()}
+        </div>
         
         <AlertDialog open={step === 'confirm_scan'} onOpenChange={(open) => !open && setStep('select_part')}>
             <AlertDialogContent>
