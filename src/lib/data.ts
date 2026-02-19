@@ -18,8 +18,7 @@ export const patientsData: Patient[] = [
   { id: 'p001', name: 'Aman Bhardwaj', age: 19, gender: 'Male', phone: '+91*********', address: 'Shivalik college of engineering', totalScans: 2, lastScan: '2023-10-15' },
   { id: 'p002', name: 'Ankit Raj', age: 20, gender: 'Male', phone: '+91*********', address: 'Shivalik college of engineering', totalScans: 1, lastScan: '2023-09-22' },
   { id: 'p003', name: 'Shivam Kumar', age: 21, gender: 'Male', phone: '+91*********', address: 'Shivalik college of engineering', totalScans: 1, lastScan: '2023-11-01' },
-  { id: 'p004', name: 'Anil Verma', age: 20, gender: 'Male', phone: '+91*********', address: 'Shivalik college of engineering', totalScans: 3, lastScan: '2023-11-05' },
-  { id: 'p005', name: 'Priya Mehta', age: 21, gender: 'Female', phone: '+91*********', address: 'Shivalik college of engineering', totalScans: 1, lastScan: '2023-10-20' },
+  { id: 'p004', name: 'Shivam Raj', age: 20, gender: 'Male', phone: '+91*********', address: 'Shivalik college of engineering', totalScans: 1, lastScan: '2023-11-05' },
 ];
 
 export const scansData: Scan[] = [
@@ -27,7 +26,7 @@ export const scansData: Scan[] = [
   { id: 's002', patientId: 'p002', patientName: 'Ankit Raj', bodyPart: 'Kidney', date: '2023-09-22', creditsUsed: 5, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s002/800/600', report: {...sampleReport, pathologyAnalysis: "Both kidneys appear normal in size and echotexture. No evidence of hydronephrosis, cysts, or calculi. Corticomedullary differentiation is well-preserved."} },
   { id: 's003', patientId: 'p003', patientName: 'Shivam Kumar', bodyPart: 'Abdomen', date: '2023-11-01', creditsUsed: 4, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s003/800/600', report: sampleReport },
   { id: 's004', patientId: 'p001', patientName: 'Aman Bhardwaj', bodyPart: 'Kidney', date: '2023-07-05', creditsUsed: 5, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s004/800/600', report: {...sampleReport, pathologyAnalysis: "A simple 2cm cyst is noted in the upper pole of the left kidney. This is likely a benign finding. The right kidney is unremarkable."} },
-  { id: 's005', patientId: 'p004', patientName: 'Anil Verma', bodyPart: 'Cardiac', date: '2023-11-05', creditsUsed: 8, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s005/800/600', report: {...sampleReport, pathologyAnalysis: "Cardiac scan shows irregular pattern requiring immediate attention."} },
+  { id: 's005', patientId: 'p004', patientName: 'Shivam Raj', bodyPart: 'Cardiac', date: '2023-11-05', creditsUsed: 8, status: 'Completed', imageUrl: 'https://picsum.photos/seed/s005/800/600', report: {...sampleReport, pathologyAnalysis: "Cardiac scan shows irregular pattern requiring immediate attention."} },
 ];
 
 export const alertsData: Alert[] = [
@@ -37,9 +36,9 @@ export const alertsData: Alert[] = [
     priority: 'High',
     icon: AlertTriangle,
     title: 'Abnormal Reading Detected', 
-    description: "Cardiac scan for Patient Anil Verma shows irregular pattern requiring immediate attention.", 
+    description: "Cardiac scan for Patient Shivam Raj shows irregular pattern requiring immediate attention.", 
     timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), 
-    details: 'Patient: Anil Verma',
+    details: 'Patient: Shivam Raj',
     read: false 
   },
   { 
@@ -62,17 +61,6 @@ export const alertsData: Alert[] = [
     description: 'Only 42 credits remaining. Consider purchasing more credits to continue uninterrupted service.', 
     timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
     details: 'Balance: 42 credits',
-    read: false 
-  },
-  { 
-    id: 'a004', 
-    type: 'Medical', 
-    priority: 'Medium',
-    icon: Clock,
-    title: 'Follow-up Required', 
-    description: 'Patient Priya Mehta needs follow-up scan for pregnancy monitoring. Schedule within next 2 weeks.', 
-    timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-    details: 'Patient: Priya Mehta',
     read: false 
   },
 ];
