@@ -46,7 +46,7 @@ function AppLayoutContent({
         <Sidebar className="hidden md:flex w-64" />
         <div className="flex flex-1 flex-col">
           <Navbar />
-          <main className="flex-1 p-4 md:p-6 lg:p-8 relative">
+          <main className="flex-1 p-4 md:p-6 lg:p-8 relative overflow-y-auto">
             {isLoading && (
               <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
                 <Loader2 className="h-16 w-16 animate-spin text-primary" />

@@ -14,7 +14,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import {
-  CreditCard as CreditCardIcon,
+  CreditCard,
   Landmark,
   QrCode,
   Zap,
@@ -154,7 +154,7 @@ const SubscriptionPage = () => {
                     </DialogHeader>
                     <Tabs defaultValue="credit-card" className="w-full">
                         <TabsList className="grid w-full grid-cols-3">
-                            <TabsTrigger value="credit-card"><CreditCardIcon className="mr-2 h-4 w-4" />Card</TabsTrigger>
+                            <TabsTrigger value="credit-card"><CreditCard className="mr-2 h-4 w-4" />Card</TabsTrigger>
                             <TabsTrigger value="upi"><Landmark className="mr-2 h-4 w-4" />UPI</TabsTrigger>
                             <TabsTrigger value="qr"><QrCode className="mr-2 h-4 w-4" />QR Code</TabsTrigger>
                         </TabsList>
