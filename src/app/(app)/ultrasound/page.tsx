@@ -306,18 +306,9 @@ const UltrasoundPage = () => {
                       src={scanImageUrl}
                       alt="Live ultrasound scan"
                       fill
-                      className="object-cover opacity-80"
+                      className="object-cover"
                   />
               )}
-              
-              <div className="scan-line"></div>
-      
-              <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-sm rounded-md p-1 flex items-center gap-1 border border-slate-700">
-                  <Button variant="ghost" size="icon" className="text-white h-8 w-8 hover:bg-white/10"><Pause className="h-4 w-4" /></Button>
-                  <Button variant="ghost" size="icon" className="text-white h-8 w-8 hover:bg-white/10"><Pen className="h-4 w-4" /></Button>
-                  <Button variant="ghost" size="icon" className="text-white h-8 w-8 hover:bg-white/10"><Circle className="h-4 w-4" /></Button>
-                  <Button variant="ghost" size="icon" className="text-white h-8 w-8 hover:bg-white/10"><Settings className="h-4 w-4" /></Button>
-              </div>
             </main>
       
             <footer className="p-4 bg-slate-900/50 flex justify-end items-center">
@@ -330,21 +321,6 @@ const UltrasoundPage = () => {
                 </div>
               </div>
             </footer>
-             <style jsx global>{`
-              @keyframes scan-line-anim {
-                  0% { top: 0; }
-                  100% { top: 100%; }
-              }
-              .scan-line {
-                position: absolute;
-                left: 0;
-                right: 0;
-                height: 2px;
-                background: linear-gradient(to bottom, transparent, rgba(0, 255, 255, 0.5), transparent);
-                box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
-                animation: scan-line-anim 4s linear infinite;
-              }
-            `}</style>
           </div>
         );
       case 'generate_report':
